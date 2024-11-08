@@ -75,7 +75,7 @@ Movix is a feature-rich web application that provides users with an extensive da
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/movix.git
+   git clone https://github.com/md-rejoyan-islam/movix
    cd movix
    ```
 

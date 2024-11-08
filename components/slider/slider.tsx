@@ -25,7 +25,7 @@ export default function Slider({
       <Swiper
         spaceBetween={20}
         centeredSlides={true}
-        slidesPerView={10}
+        slidesPerView={3}
         breakpoints={{
           1300: {
             slidesPerView: 9,

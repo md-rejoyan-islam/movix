@@ -34,8 +34,8 @@ function TopRated() {
           ${isSuccess || isSuccess2 ? "hidden" : ""}
           `}
         >
-          <Slider delay={100}>
-            {Array.from({ length: 10 })
+          <Slider delay={1000}>
+            {Array.from({ length: 20 })
               .fill(null)
               .map((_, index) => (
                 <LoadingCard key={index} />

@@ -1,11 +1,23 @@
+"use client";
+
+import { useTrendingMoviesInTodayQuery } from "@/lib/features/movie/movie-api";
+import { getRandomImagePath } from "@/lib/helper";
+import Image from "next/image";
+
 export default function Banner() {
+  const { data: { results: trendingTodayMovies = [] } = {} } =
+    useTrendingMoviesInTodayQuery();
+
   return (
     <section className="min-h-[450px] md:min-h-[700px] md:h-full  flex items-center relative text-white px-4">
       <div className="h-full absolute  top-0 left-0 opacity-50 overflow-hidden text-transparent  w-full">
-        <img
-          src="https://image.tmdb.org/t/p/original/hd95kH9RgN3W78UaFU6Sdpy9Mfl.jpg"
+        <Image
+          src={getRandomImagePath(trendingTodayMovies)}
           className="w-full h-full object-cover  opacity-80 bg-bg_primary object-center  "
-          alt=""
+          alt="Banner Image"
+          width={1920}
+          priority
+          height={1080}
         />
 
         <div className="opacity-layer"></div>

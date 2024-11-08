@@ -17,7 +17,7 @@ function TopRated() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="pb-10 max-w-container px-4">
+    <section className="pb-4 sm:pb-8 md:pb-10 max-w-container px-4">
       <div className="flex items-center justify-between pb-6">
         <p className="md:text-[24px] sm:text-[22px] text-[20px] font-semibold text-white text-nowrap">
           Top Rated

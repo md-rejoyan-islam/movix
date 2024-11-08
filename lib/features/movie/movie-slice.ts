@@ -6,8 +6,7 @@ export const movieSlice = createApi({
     baseUrl: `https://api.themoviedb.org/3/`,
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwNTNlMmZlMTk2OWY3NDUzYWIwODczNGQ1YjJkYWU3MiIsIm5iZiI6MTczMTA3MDIxMC40NTM5NjQyLCJzdWIiOiI2NGE1OGJmNmEwYmUyODAxNGZhNzA4OWIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.vHER5HYShaFZKWg5fY1W6IGOyEoXqUsSLuit-UzjDGs",
+      Authorization: process.env.NEXT_PUBLIC_API_KEY || "",
     },
   }),
   tagTypes: [

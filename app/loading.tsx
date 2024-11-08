@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Loading() {
@@ -29,9 +30,16 @@ export default function Loading() {
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="text-4xl font-bold mb-8 text-primary"
+        className="text-4xl font-bold mb-4 text-primary"
       >
-        Movies Hub
+        <Image
+          src="/movix-logo.svg"
+          alt="logo"
+          width={220}
+          height={220}
+          priority
+          className="w-48"
+        />
       </motion.div>
 
       <div className="w-64 h-2 bg-slate-200 rounded-full overflow-hidden">

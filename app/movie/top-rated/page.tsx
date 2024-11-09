@@ -38,8 +38,6 @@ function TopRated() {
     }
   }, [data, page]);
 
-  console.log(page);
-
   // Infinite scroll handler
   React.useEffect(() => {
     const debounceTimeout = 300; // debounce delay in ms
@@ -100,8 +98,8 @@ function TopRated() {
                 setSortBy(value);
                 setPage(1);
                 setMoviesList([]);
-                // soring movies and re-fetching
               }}
+              defaultValue="popularity.desc"
             >
               <SelectTrigger className="min-w-[130px] bg-black/10 text-white border-sky-600  focus:ring-sky-600 focus:ring-offset-0 max-w-[220px] ">
                 <SelectValue placeholder="Sort By" />

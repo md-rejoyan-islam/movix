@@ -157,7 +157,7 @@ interface SpokenLanguage {
 export interface MovieDetails {
   adult: boolean;
   backdrop_path: string | null;
-  belongs_to_collection: null | Record<string, any>; // Adjust if collection details are known
+  belongs_to_collection: null | Record<string, undefined>; // Adjust if collection details are known
   budget: number;
   genres: Genre[];
   homepage: string;

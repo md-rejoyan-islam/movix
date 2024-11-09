@@ -9,6 +9,7 @@ interface SmallMovieCardProps {
   date: string;
   rating: number;
   styles?: string;
+  href: string;
 }
 
 export default function SmallMovieCard({
@@ -17,12 +18,13 @@ export default function SmallMovieCard({
   date,
   rating,
   styles,
+  href,
 }: SmallMovieCardProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
     <Link
-      href={"/"}
+      href={href}
       className={`movie-card z-[2000] relative cursor-pointer ${styles}`}
     >
       <div className="relative">

@@ -2,7 +2,6 @@
 import { useState } from "react";
 
 import {
-  useGetMovieAllImagesQuery,
   useGetMovieCreditsQuery,
   useGetRecommendationsMoviesQuery,
   useGetSimilarMoviesQuery,
@@ -33,12 +32,11 @@ function SingleMovie() {
   const { data: credits } = useGetMovieCreditsQuery(`movie/${id}`);
   const { data: { results: recommendationsMovies = [] } = {} } =
     useGetRecommendationsMoviesQuery(`movie/${id}`);
-  const { data: movieAllPosters } = useGetMovieAllImagesQuery(`movie/${id}`);
 
   const { data: { results: similarMovies = [] } = {} } =
     useGetSimilarMoviesQuery(`movie/${id}`);
 
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   function open() {
     setIsOpen(true);
   }
@@ -236,6 +234,7 @@ function SingleMovie() {
                 date={movie.first_air_date || movie.release_date || ""}
                 rating={movie.vote_average}
                 styles="min-w-[180px]"
+                href={`/movies/details/${movie.id}`}
               />
             ))}
           </div>
@@ -253,6 +252,7 @@ function SingleMovie() {
                 date={movie.first_air_date || movie.release_date || ""}
                 rating={movie.vote_average}
                 styles="min-w-[180px]"
+                href={`/movies/details/${movie.id}`}
               />
             ))}
           </div>

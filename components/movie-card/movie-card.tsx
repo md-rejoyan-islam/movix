@@ -1,5 +1,6 @@
 import { formatDate, imageUrl } from "@/lib/helper";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 interface SmallMovieCardProps {
@@ -8,6 +9,7 @@ interface SmallMovieCardProps {
   date: string;
   rating: number;
   genres: string[];
+  href: string;
 }
 
 export default function MovieCard({
@@ -16,11 +18,12 @@ export default function MovieCard({
   date,
   rating,
   genres,
+  href,
 }: SmallMovieCardProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <div className="card  w-full ">
+    <Link href={href} className="card  w-full ">
       <div className="relative">
         <Image
           src={imageUrl(image)}
@@ -94,6 +97,6 @@ export default function MovieCard({
           {formatDate(date)}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }

@@ -1,6 +1,7 @@
 import { useGetMovieAllImagesQuery } from "@/lib/features/movie/movie-api";
 import { getPosterImageFullPath } from "@/lib/helper";
 import { Tab, TabGroup, TabPanel, TabPanels } from "@headlessui/react";
+import Image from "next/image";
 
 export default function TabItem({ id }: { id: string }) {
   const { data: movieAllPosters } = useGetMovieAllImagesQuery(`movie/${id}`);
@@ -56,7 +57,9 @@ export default function TabItem({ id }: { id: string }) {
             >
               <div className="flex  mb-4 gap-2">
                 {movieAllPosters?.posters.map((poster) => (
-                  <img
+                  <Image
+                    width={180}
+                    height={240}
                     key={poster.file_path}
                     src={getPosterImageFullPath(poster.file_path || "")}
                     alt={poster.file_path}

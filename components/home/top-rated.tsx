@@ -52,6 +52,7 @@ function TopRated() {
                   date={movie.release_date}
                   image={movie.poster_path}
                   rating={movie.vote_average}
+                  href={`/movies/details/${movie.id}`}
                 />
               ))
             : topRatedTvShow?.map((movie) => (
@@ -61,6 +62,7 @@ function TopRated() {
                   date={movie.first_air_date}
                   image={movie.poster_path}
                   rating={movie.vote_average}
+                  href={`/movies/details/${movie.id}`}
                 />
               ))}
         </Slider>

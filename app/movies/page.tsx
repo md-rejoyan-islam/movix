@@ -11,18 +11,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useSortingMoviesQuery } from "@/lib/features/movie/movie-api";
-import { TopMoviesDetails } from "@/lib/types";
+import {
+  useGetGenreListQuery,
+  useSortingMoviesQuery,
+} from "@/lib/features/movie/movie-api";
+import { getGenreNames, sortingOptions } from "@/lib/helper";
+import { Genre, TopMoviesDetails } from "@/lib/types";
 import React from "react";
 
-function TopRated() {
+function Movies() {
   const [sortBy, setSortBy] = React.useState<string>("popularity.desc");
   const [page, setPage] = React.useState<number>(1);
   const [moviesList, setMoviesList] = React.useState<TopMoviesDetails[]>([]);
+  const [selectedGenres, setSelectedGenres] = React.useState<Genre[]>([]);
 
   const { data, isLoading, isFetching } = useSortingMoviesQuery(
-    `discover/tv?page=${page}&sort_by=${sortBy}`
+    `discover/movie?page=${page}&sort_by=${sortBy}&with_genres=${selectedGenres.map(
+      (genre) => genre.id
+    )}`
   );
+
+  const { data: { genres = [] } = {} } = useGetGenreListQuery("/movie/list");
 
   // Load data into moviesList when data or page changes
   React.useEffect(() => {
@@ -65,32 +74,19 @@ function TopRated() {
     };
   }, [isLoading]);
 
-  const options = [
-    { value: "popularity.asc", label: "Popularity Ascending" },
-    {
-      value: "popularity.desc",
-      label: "Popularity Descending",
-      // disable: true,
-    },
-    { value: "vote_average.asc", label: "Rating Ascending" },
-    { value: "vote_average.desc", label: "Rating Descending" },
+  const genresList = genres.map((genre) => ({
+    label: genre.name,
+    value: genre.id.toString(),
+  }));
 
-    {
-      value: "first_air_date.asc",
-      label: "Release Date Ascending",
-    },
-    {
-      value: "first_air_date.desc",
-      label: "Release Date Descending",
-    },
-  ];
+  console.log(selectedGenres);
 
   return (
     <section className="pt-[61px]">
       <div className="max-w-container py-8 md:py-12 px-4">
         <div className="flex gap-4 md:items-center justify-between flex-wrap md:flex-nowrap flex-col md:flex-row">
           <h2 className="text-[24px] text-white text-nowrap px-2">
-            Top Rated Movies
+            Explore Movies
           </h2>
           <div className="flex gap-3 flex-wrap md:flex-nowrap items-center">
             <Select
@@ -107,7 +103,7 @@ function TopRated() {
               <SelectContent className="bg-[#031022] text-white border-sky-700">
                 <SelectGroup>
                   <SelectLabel>Sorting By</SelectLabel>
-                  {options.map((option) => (
+                  {sortingOptions.map((option) => (
                     <SelectItem key={option.value} value={option.value}>
                       {option.label}
                     </SelectItem>
@@ -117,9 +113,18 @@ function TopRated() {
             </Select>
 
             <MultipleSelector
-              defaultOptions={options}
+              defaultOptions={genresList}
+              options={genresList}
               placeholder="Select Genres"
-              onChange={(selected) => console.log(selected)}
+              onChange={(selected) => {
+                setSelectedGenres(
+                  selected.map((genre) => ({
+                    id: parseInt(genre.value),
+                    name: genre.label,
+                  }))
+                );
+              }}
+              className="w-full max-w-[520px]"
               emptyIndicator={
                 <p className="text-center text-lg leading-10 text-white/90 ">
                   no results found.
@@ -128,7 +133,7 @@ function TopRated() {
             />
           </div>
         </div>
-        {/* <div className="card-items flex flex-wrap justify-between   gap-x-4 gap-y-8 pt-6"> */}
+
         <div className="card-items grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 xsm:grid-cols-3 grid-cols-2   gap-x-4 gap-y-6 pt-6">
           {moviesList.map((movie) => (
             <MovieCard
@@ -137,6 +142,11 @@ function TopRated() {
               image={movie.poster_path}
               date={movie.first_air_date || movie.release_date || ""}
               rating={movie.vote_average}
+              genres={
+                getGenreNames(movie, genres).filter(
+                  (genre) => genre !== undefined
+                ) as string[]
+              }
             />
           ))}
           {isFetching &&
@@ -149,4 +159,4 @@ function TopRated() {
   );
 }
 
-export default TopRated;
+export default Movies;

@@ -16,6 +16,14 @@ body {
   --orange: #f89e00;
 }
 
+header li a:hover {
+  color: var(--pink);
+}
+
+header li a.active {
+  color: var(--pink);
+}
+
 /* opcity lawer for banner image  */
 .opacity-layer {
   width: 100%;

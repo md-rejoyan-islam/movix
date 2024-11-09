@@ -7,6 +7,7 @@ interface SmallMovieCardProps {
   title: string;
   date: string;
   rating: number;
+  genres: string[];
 }
 
 export default function MovieCard({
@@ -14,8 +15,10 @@ export default function MovieCard({
   title,
   date,
   rating,
+  genres,
 }: SmallMovieCardProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+
   return (
     <div className="card  w-full ">
       <div className="relative">
@@ -73,13 +76,15 @@ export default function MovieCard({
           </svg>
         </div>
         <div className="genres  absolute bottom-3 flex justify-end w-full  px-2 ">
-          <div className="w-1/2 flex gap-1 flex-wrap justify-end ">
-            <span className="bg-pink text-white px-1 py-[2px] text-[10px]  sm:text-[12px] rounded-sm">
-              Animation
-            </span>
-            <span className="bg-pink text-white px-1 py-[2px]  text-[10px]  sm:text-[12px] rounded-sm">
-              Family
-            </span>
+          <div className="w-2/3 flex gap-1 flex-wrap justify-end ">
+            {genres.map((genre) => (
+              <span
+                key={genre}
+                className="bg-[#da2f68cf] inline-block text-nowrap text-white px-1 py-[2px]  text-[10px]  sm:text-[12px] rounded-sm"
+              >
+                {genre}
+              </span>
+            ))}
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import {
+  GenresResponse,
   MoviesResponse,
   PopularTheaterMoviesResponse,
   PopularTvMoviesResponse,
@@ -54,6 +55,12 @@ const movieAPI = movieSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getGenreList: builder.query<GenresResponse, string>({
+      query: (query: string) => ({
+        url: `/genre/${query}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -65,4 +72,5 @@ export const {
   useTopRatedMoviesQuery,
   useTopRatedTVShowsQuery,
   useSortingMoviesQuery,
+  useGetGenreListQuery,
 } = movieAPI;

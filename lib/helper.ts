@@ -1,6 +1,6 @@
 // image url
 
-import { Movie } from "./types";
+import { Genre, Movie } from "./types";
 
 export const imageUrl = (path?: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || "";
@@ -27,4 +27,32 @@ export const getRandomImagePath = (data: Movie[]) => {
   const imagePath = data[Math.ceil(Math.random() * data.length)]?.backdrop_path;
 
   return data.length ? baseUrl + imagePath : defaultImage;
+};
+
+// sorting
+export const sortingOptions = [
+  { value: "popularity.asc", label: "Popularity Ascending" },
+  {
+    value: "popularity.desc",
+    label: "Popularity Descending",
+    // disable: true,
+  },
+  { value: "vote_average.asc", label: "Rating Ascending" },
+  { value: "vote_average.desc", label: "Rating Descending" },
+
+  {
+    value: "first_air_date.asc",
+    label: "Release Date Ascending",
+  },
+  {
+    value: "first_air_date.desc",
+    label: "Release Date Descending",
+  },
+];
+
+// get genre name by id
+export const getGenreNames = (movie: Movie, genres: Genre[]) => {
+  return movie.genre_ids.map(
+    (id) => genres.find((genre) => genre.id === id)?.name
+  );
 };

@@ -9,9 +9,19 @@ import SearchField from "./search-field";
 
 const Header = () => {
   const { isOpen, toggleMenu, dropDownRef } = usePopupControl();
-  // const { isOpen:sear, toggleMenu, dropDownRef } = usePopupControl();
-
   const pathname = usePathname();
+
+  const menus = [
+    { id: 1, name: "Home", link: "/", active: pathname === "/" },
+    {
+      id: 2,
+      name: "Tv Shows",
+      link: "/tv-shows",
+      active: pathname === "/tv-shows",
+    },
+    { id: 3, name: "Movies", link: "/movies", active: pathname === "/movies" },
+    // { id: 4, name: "Login", link: "/login", active: pathname === "/login" },
+  ];
 
   useEffect(() => {
     if (isOpen) {
@@ -43,66 +53,16 @@ const Header = () => {
           {/* horizontal nav */}
           <div className="horizontal-menu md:block hidden">
             <ul className="flex items-center justify-center space-x-8  horizontal-menu z-20">
-              <li className="relative group">
-                <Link
-                  href={"#"}
-                  className={`${
-                    pathname.includes("/movie/") && "active"
-                  } px-1 py-3`}
-                >
-                  Movies
-                </Link>
-                <ul className="absolute bg-bg_primary shadow-sm shadow-black-light border border-black-light  top-[130%] w-[140px] text-white hidden group-hover:flex flex-col gap-2 py-3 px-4 rounded-md">
-                  <li>
-                    <Link href={"/movie/popular"} className="py-1 block">
-                      Popular
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href={"/movie/now-playing"} className="py-1  block">
-                      Now Playing
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href={"/movie/top-rated"} className="py-1 block">
-                      Top Rated
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-              <li className="relative group">
-                <Link
-                  href={"#"}
-                  className={`${
-                    pathname.includes("/tv/") && "active"
-                  } px-1 py-3`}
-                >
-                  Tv Shows
-                </Link>
-                <ul className="absolute bg-bg_primary shadow-sm shadow-black-light border border-black-light  top-[130%] w-[140px] text-white hidden group-hover:flex flex-col gap-2 py-3 px-4 rounded-md">
-                  <li>
-                    <Link href={"/tv/popular"} className="py-1 block">
-                      Popular
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href={"/tv/on-the-air"} className="py-1  block">
-                      On Tv
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href={"/tv/top-rated"} className="py-1 block">
-                      Top Rated
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-
-              <li>
-                <Link href={"/login"} className="px-1 py-3">
-                  Login
-                </Link>
-              </li>
+              {menus.map((menu) => (
+                <li key={menu.id}>
+                  <Link
+                    href={menu.link}
+                    className={`${menu.active && "active"} px-1 py-3`}
+                  >
+                    {menu.name}
+                  </Link>
+                </li>
+              ))}
 
               <li className="">
                 <SearchField />
@@ -126,24 +86,22 @@ const Header = () => {
             </button>
             <ul
               className={`${
-                isOpen ? "translate-y-[97px] " : "translate-y-[-100px] "
-              } fixed text-white transition-transform duration-300  bg-[#020c1b] w-screen flex flex-col px-7 text-lg box-border  z-50  right-0  py-3`}
+                isOpen ? "translate-y-[109px] " : "translate-y-[-120px] "
+              } fixed text-white  transition-transform duration-300  bg-[#020c1b] w-screen flex flex-col space-y-2 px-7 text-lg box-border  z-50  right-0  py-4`}
             >
-              <li>
-                <Link href={"#"} className="py-1 block">
-                  Movies
-                </Link>
-              </li>
-              <li>
-                <Link href={"#"} className="py-1 block">
-                  Tv Shows
-                </Link>
-              </li>
-              <li>
-                <Link href={"#"} className="py-1 block">
-                  Login
-                </Link>
-              </li>
+              {menus.map((menu) => (
+                <li key={menu.id}>
+                  <Link
+                    href={menu.link}
+                    className={`py-1 block ${menu.active && "active"}`}
+                    onClick={() => {
+                      toggleMenu();
+                    }}
+                  >
+                    {menu.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

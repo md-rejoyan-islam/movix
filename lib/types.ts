@@ -69,3 +69,19 @@ export interface TopRatedMoviesResponse {
   results: TopRatedMovie[];
   page: number;
 }
+
+export interface TopMoviesDetails extends Movie {
+  title?: string;
+  original_title?: string;
+  media_type?: string;
+  release_date?: string;
+  video?: boolean;
+  name?: string;
+  first_air_date?: string;
+  origin_country?: string[];
+}
+
+export interface MoviesResponse {
+  results: TopMoviesDetails[];
+  page: number;
+}

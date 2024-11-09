@@ -1,11 +1,36 @@
-export default function MovieCard() {
+import { formatDate, imageUrl } from "@/lib/helper";
+import Image from "next/image";
+import { useState } from "react";
+
+interface SmallMovieCardProps {
+  image: string;
+  title: string;
+  date: string;
+  rating: number;
+}
+
+export default function MovieCard({
+  image,
+  title,
+  date,
+  rating,
+}: SmallMovieCardProps) {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
   return (
     <div className="card  w-full ">
       <div className="relative">
-        <img
-          src="https://image.tmdb.org/t/p/original/2zmTngn1tYC1AvfnrFLhxeD82hz.jpg"
-          className="rounded-xl"
-          alt=""
+        <Image
+          src={imageUrl(image)}
+          className="rounded-xl absolute top-0"
+          alt="Top Rated Movie"
+          width={200}
+          height={300}
+          onLoad={() => setIsImageLoaded(true)}
+        />
+        <div
+          className={`${
+            isImageLoaded ? "invisible" : "visible"
+          } aspect-[2/3]  animate-pulse rounded-lg  bg-[#1f467c95]`}
         />
         <div className=" absolute -bottom-[18px] left-3">
           <svg
@@ -43,7 +68,7 @@ export default function MovieCard() {
                 textAnchor: "middle",
               }}
             >
-              7.5
+              {rating?.toPrecision(2)}
             </text>
           </svg>
         </div>
@@ -59,10 +84,9 @@ export default function MovieCard() {
         </div>
       </div>
       <div className="pt-6">
-        <h2 className="text-lg sm:text-[20px] text-white">The Boys</h2>
+        <h2 className="text-lg sm:text-[20px] text-white">{title}</h2>
         <p className="text-[12px] sm:text-[14px] text-white opacity-50 ">
-          {" "}
-          Jun 15, 2024
+          {formatDate(date)}
         </p>
       </div>
     </div>

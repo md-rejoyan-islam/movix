@@ -1,4 +1,5 @@
 import {
+  MoviesResponse,
   PopularTheaterMoviesResponse,
   PopularTvMoviesResponse,
   TopRatedMoviesResponse,
@@ -47,6 +48,12 @@ const movieAPI = movieSlice.injectEndpoints({
       }),
       providesTags: ["Top_Rated_TV_Shows"],
     }),
+    sortingMovies: builder.query<MoviesResponse, string>({
+      query: (query: string) => ({
+        url: `/${query}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -57,4 +64,5 @@ export const {
   usePopularMoviesInTheatersQuery,
   useTopRatedMoviesQuery,
   useTopRatedTVShowsQuery,
+  useSortingMoviesQuery,
 } = movieAPI;

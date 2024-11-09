@@ -195,7 +195,7 @@ function PopularTvShows() {
                     (genre) => genre !== undefined
                   ) as string[]
                 }
-                href={`/tv/details/${movie.id}`}
+                href={`/tv-shows/details/${movie.id}`}
               />
             ))}
           </div>

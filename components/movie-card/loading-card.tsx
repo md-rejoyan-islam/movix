@@ -10,7 +10,7 @@ export default function LoadingCard({ style }: { style?: string }) {
         <div className="aspect-[2/3]  animate-pulse rounded-lg bg-[#1f467c95]" />
 
         {/* Rating badge skeleton */}
-        <div className="absolute -bottom-3 left-2 w-10 h-10 rounded-full bg-[#1f467c95] animate-pulse" />
+        <div className="absolute  -bottom-3 left-2 w-10 h-10 rounded-full bg-[#1f467c95] animate-pulse" />
 
         {/* Genre tags skeleton */}
       </div>

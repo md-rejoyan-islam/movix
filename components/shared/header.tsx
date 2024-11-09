@@ -17,9 +17,14 @@ const Header = () => {
       id: 2,
       name: "Tv Shows",
       link: "/tv-shows",
-      active: pathname === "/tv-shows",
+      active: pathname.includes("/tv-shows"),
     },
-    { id: 3, name: "Movies", link: "/movies", active: pathname === "/movies" },
+    {
+      id: 3,
+      name: "Movies",
+      link: "/movies",
+      active: pathname.includes("/movies"),
+    },
     // { id: 4, name: "Login", link: "/login", active: pathname === "/login" },
   ];
 

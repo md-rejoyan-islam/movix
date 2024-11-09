@@ -25,16 +25,16 @@ import SmallMovieCard from "../movie-card/small-movie-card";
 import CastCard from "./cast-card";
 import TabItem from "./tab";
 
-function SingleMovie() {
+function SingleMovie({ href }: { href: string }) {
   const { id }: { id: string } = useParams();
 
-  const { data: movie } = useGetSingleMovieByIdQuery(`movie/${id}`);
-  const { data: credits } = useGetMovieCreditsQuery(`movie/${id}`);
+  const { data: movie } = useGetSingleMovieByIdQuery(href);
+  const { data: credits } = useGetMovieCreditsQuery(href);
   const { data: { results: recommendationsMovies = [] } = {} } =
-    useGetRecommendationsMoviesQuery(`movie/${id}`);
+    useGetRecommendationsMoviesQuery(href);
 
   const { data: { results: similarMovies = [] } = {} } =
-    useGetSimilarMoviesQuery(`movie/${id}`);
+    useGetSimilarMoviesQuery(href);
 
   const [isOpen, setIsOpen] = useState(false);
   function open() {
@@ -69,7 +69,7 @@ function SingleMovie() {
           </figure>
 
           <div>
-            <h1 className=" text-[28px] md:text-[34px] font-semibold">
+            <h1 className="text-[28px] md:text-[34px] font-semibold">
               {movie?.title || movie?.name || ""}
             </h1>
             <h3 className="text-base opacity-50 md:text-xl">
@@ -174,7 +174,7 @@ function SingleMovie() {
             <div className="flex gap-x-8 py-6 border-b border-[rgba(255,255,255,.1)]">
               <div className="flex gap-3">
                 <h4>Status:</h4>
-                <p className="opacity-50">{movie?.status || ""}</p>
+                <p className="opacity-50">{movie?.status}</p>
               </div>
               <div className="flex gap-3">
                 <h4>Release Date:</h4>
@@ -186,6 +186,7 @@ function SingleMovie() {
               </div>
               <div className="flex gap-3">
                 <h4>Release Date:</h4>
+
                 <p className="opacity-50">2h 25m</p>
               </div>
             </div>

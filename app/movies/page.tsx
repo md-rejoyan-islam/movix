@@ -145,7 +145,7 @@ function Movies() {
                   (genre) => genre !== undefined
                 ) as string[]
               }
-              href={`/movie/details/${movie.id}`}
+              href={`/movies/details/${movie.id}`}
             />
           ))}
           {isFetching &&

@@ -56,3 +56,23 @@ export const getGenreNames = (movie: Movie, genres: Genre[]) => {
     (id) => genres.find((genre) => genre.id === id)?.name
   );
 };
+
+// get backdrop image full path
+export const getBackdropImageFullPath = (path: string) => {
+  const baseUrl = process.env.NEXT_PUBLIC_ORIGINAL_IMAGE_BASE_URL || "";
+  console.log(baseUrl + path);
+
+  return baseUrl + path;
+};
+
+// get poster image full path
+export const getPosterImageFullPath = (path: string) => {
+  const baseUrl = process.env.NEXT_PUBLIC_ORIGINAL_IMAGE_BASE_URL || "";
+  return baseUrl + path;
+};
+
+// get cast image full path
+export const getCastImageFullPath = (path: string) => {
+  const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || "";
+  return path ? baseUrl + path : "/user.png";
+};

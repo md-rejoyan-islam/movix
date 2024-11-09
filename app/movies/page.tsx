@@ -79,8 +79,6 @@ function Movies() {
     value: genre.id.toString(),
   }));
 
-  console.log(selectedGenres);
-
   return (
     <section className="pt-[61px]">
       <div className="max-w-container py-8 md:py-12 px-4">

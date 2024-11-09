@@ -1,5 +1,8 @@
 import {
   GenresResponse,
+  MovieCredits,
+  MovieDetails,
+  MovieImagesResponse,
   MoviesResponse,
   PopularTheaterMoviesResponse,
   PopularTvMoviesResponse,
@@ -61,6 +64,36 @@ const movieAPI = movieSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getSingleMovieById: builder.query<MovieDetails, string>({
+      query: (query: string) => ({
+        url: `/${query}`,
+        method: "GET",
+      }),
+    }),
+    getMovieCredits: builder.query<MovieCredits, string>({
+      query: (query: string) => ({
+        url: `/${query}/credits`,
+        method: "GET",
+      }),
+    }),
+    getRecommendationsMovies: builder.query<MoviesResponse, string>({
+      query: (query: string) => ({
+        url: `/${query}/recommendations`,
+        method: "GET",
+      }),
+    }),
+    getSimilarMovies: builder.query<MoviesResponse, string>({
+      query: (query: string) => ({
+        url: `/${query}/similar`,
+        method: "GET",
+      }),
+    }),
+    getMovieAllImages: builder.query<MovieImagesResponse, string>({
+      query: (query: string) => ({
+        url: `/${query}/images`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -73,4 +106,9 @@ export const {
   useTopRatedTVShowsQuery,
   useSortingMoviesQuery,
   useGetGenreListQuery,
+  useGetSingleMovieByIdQuery,
+  useGetMovieCreditsQuery,
+  useGetRecommendationsMoviesQuery,
+  useGetSimilarMoviesQuery,
+  useGetMovieAllImagesQuery,
 } = movieAPI;

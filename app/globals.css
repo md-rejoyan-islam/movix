@@ -33,6 +33,25 @@ header li a.active {
   bottom: 0;
   left: 0;
 }
+/* movie play btn  */
+.play-movie-btn:hover > svg > circle {
+  stroke: var(--pink);
+  stroke-dasharray: 1300;
+  stroke-dashoffset: 650;
+  transition: all 0.5s ease-in-out;
+}
+.play-movie-btn:hover > svg > polygon {
+  stroke: var(--pink);
+  stroke-dasharray: 480;
+  stroke-dashoffset: 240;
+  transform: translateY(0);
+  transition: all 0.7s ease-in-out;
+}
+.play-movie-btn:hover > span {
+  color: var(--pink);
+
+  transition: all 0.7s ease-in-out;
+}
 
 @layer base {
   :root {

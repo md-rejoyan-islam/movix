@@ -11,6 +11,7 @@ import {
   useGetSingleMovieByIdQuery,
 } from "@/lib/features/movie/movie-api";
 import {
+  convertRuntime,
   formatDate,
   getBackdropImageFullPath,
   getPosterImageFullPath,
@@ -166,11 +167,14 @@ function SingleMovie({ href }: { href: string }) {
                 </p>
               </div>
               <div className="flex gap-3">
-                <h4>Release Date:</h4>
+                <h4>Running Time:</h4>
 
-                <p className="opacity-50">2h 25m</p>
+                <p className="opacity-50">
+                  {convertRuntime(movie?.runtime || 0)}
+                </p>
               </div>
             </div>
+
             <div className="py-3 border-b border-[rgba(236,191,191,0.1)] flex gap-3">
               <h4>Director: </h4>
               <p className="opacity-50">

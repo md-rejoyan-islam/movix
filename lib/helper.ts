@@ -76,3 +76,10 @@ export const getCastImageFullPath = (path: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL || "";
   return path ? baseUrl + path : "/user.png";
 };
+
+// 134 to 2h 14m
+export const convertRuntime = (runtime: number) => {
+  const hours = Math.floor(runtime / 60);
+  const minutes = runtime % 60;
+  return `${hours}h ${minutes}m`;
+};

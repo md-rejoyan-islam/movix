@@ -27,8 +27,8 @@ function SearchField() {
       </div>
       <div
         className={`${
-          isOpen ? "translate-y-0 mt-[14px] " : "-translate-y-full  -mt-20 "
-        } fixed  -z-50 w-full right-0 overflow-hidden backdrop-blur-2xl bg-[#0c0727a8] transition-transform duration-300  `}
+          isOpen ? "translate-y-0 mt-[61px] " : "-translate-y-full   "
+        } fixed top-0  -z-50 w-full right-0 overflow-hidden backdrop-blur-2xl bg-[#0c0727a8] transition-transform duration-300  `}
       >
         <div className=" h-[60px] w-full  px-4 relative max-w-container">
           <div className="flex px-4 items-center text-white opacity-70 h-full">
@@ -51,7 +51,7 @@ function SearchField() {
           />
         </div>
         {searchValue && (
-          <div className=" max-h-[50vh] overflow-scroll z-[1000]   px-4 text-white opacity-80 max-w-container pb-[1px] ">
+          <div className=" max-h-[50vh] overflow-scroll z-[1000]    px-4 text-white opacity-80 max-w-container pb-[1px] ">
             {data?.results?.map((movie) => (
               <Link
                 className=" w-full border-t border-[#23134d] py-1.5 px-4 flex items-center gap-2"

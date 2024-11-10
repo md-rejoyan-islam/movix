@@ -2,15 +2,19 @@ import usePopupControl from "@/hooks/popupControl/usePopupControl";
 import useSearch from "@/hooks/search/useSearch";
 import { Search, X } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { BiSolidMoviePlay } from "react-icons/bi";
 import { IoSearchSharp } from "react-icons/io5";
 function SearchField() {
   const { isOpen, toggleMenu } = usePopupControl();
-
+  const router = useRouter();
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
-  const { data, handleClearSearch, handleSearch, searchValue } = useSearch();
+  const { data, handleClearSearch, handleSearch, searchValue } = useSearch({
+    title: "",
+    page: 1,
+  });
 
   return (
     <>
@@ -40,6 +44,13 @@ function SearchField() {
               placeholder="Search  for a movie or tv show..."
               value={searchValue}
               onChange={(e) => handleSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleClearSearch();
+                  toggleMenu();
+                  router.push(`/search?title=${searchValue}`);
+                }
+              }}
             />
           </div>
 
@@ -69,6 +80,11 @@ function SearchField() {
                 <span>{movie.name || movie.original_title}</span>
               </Link>
             ))}
+            {data?.results.length === 0 && searchValue && (
+              <p className="py-3 text-red-500 text-center opacity-70 px-4">
+                No Result Found
+              </p>
+            )}
           </div>
         )}
       </div>

@@ -101,9 +101,12 @@ const movieAPI = movieSlice.injectEndpoints({
         method: "GET",
       }),
     }),
-    getSearchedMovies: builder.query<MoviesResponse, string>({
-      query: (query: string) => ({
-        url: `/search/multi?query=${query}`,
+    getSearchedMovies: builder.query<
+      MoviesResponse,
+      { query: string; page?: number }
+    >({
+      query: ({ query, page = 1 }) => ({
+        url: `/search/multi?query=${query}&page=${page}`,
         method: "GET",
         params: {
           query,

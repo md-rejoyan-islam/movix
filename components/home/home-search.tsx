@@ -1,11 +1,13 @@
 import usePopupControl from "@/hooks/popupControl/usePopupControl";
 import useSearch from "@/hooks/search/useSearch";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BiSolidMoviePlay } from "react-icons/bi";
 
 export default function HomeSearch() {
-  const { data, handleClearSearch, handleSearch, searchValue } = useSearch();
-  console.log(data?.results, searchValue);
+  const { data, handleClearSearch, handleSearch, searchValue } = useSearch({});
+
+  const router = useRouter();
 
   const { dropDownRef, isOpen, toggleMenu } = usePopupControl();
   return (
@@ -24,6 +26,11 @@ export default function HomeSearch() {
           value={searchValue}
           onChange={(e) => {
             handleSearch(e.target.value);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              router.push(`/search?title=${searchValue}`);
+            }
           }}
           onClick={toggleMenu}
         />

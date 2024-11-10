@@ -25,7 +25,7 @@ export default function Loading() {
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[1000] bg-background flex flex-col items-center justify-center">
+    <div className="fixed inset-0 z-[3000] bg-background flex flex-col items-center justify-center">
       <motion.div
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}

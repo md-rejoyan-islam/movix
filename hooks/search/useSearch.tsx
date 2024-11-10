@@ -1,11 +1,23 @@
 import { useGetSearchedMoviesQuery } from "@/lib/features/movie/movie-api";
 import React from "react";
 
-export default function useSearch() {
+export default function useSearch({
+  title,
+  page = 1,
+}: {
+  title?: string;
+  page?: number;
+}) {
   const [searchValue, setSearchValue] = React.useState<string>("");
-  const [query, setQuery] = React.useState<string>("");
+  const [query, setQuery] = React.useState<string>(title || "");
 
-  const { data } = useGetSearchedMoviesQuery(query);
+  const { data, isLoading, isError, error, refetch } =
+    useGetSearchedMoviesQuery({
+      query,
+      page: page,
+    });
+
+  console.log(data);
 
   // debounce search
   const timeoutId = React.useRef<NodeJS.Timeout | null>(null);
@@ -30,5 +42,13 @@ export default function useSearch() {
     setSearchValue("");
   };
 
-  return { searchValue, handleSearch, data, handleClearSearch };
+  return {
+    searchValue,
+    handleSearch,
+    data,
+    handleClearSearch,
+    isLoading,
+
+    refetch,
+  };
 }

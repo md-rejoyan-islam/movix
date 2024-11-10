@@ -243,7 +243,9 @@ function SingleMovie({ href }: { href: string }) {
         <div className="cast py-6  relative">
           <h3 className="font-semibold text-xl md:text-2xl ">Media</h3>
           <TabItem
-            movieAllPosters={movieAllPosters?.posters || []}
+            movieAllPosters={
+              movieAllPosters || { posters: [], backdrops: [], logos: [] }
+            }
             movieAllVideos={movieAllVideos}
           />
         </div>

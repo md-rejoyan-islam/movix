@@ -28,19 +28,19 @@ export default function Slider({
         slidesPerView={3}
         breakpoints={{
           1300: {
-            slidesPerView: 9,
-          },
-          1200: {
-            slidesPerView: 8,
-          },
-          1024: {
             slidesPerView: 7,
           },
-          924: {
+          1200: {
             slidesPerView: 6,
           },
-          768: {
+          1024: {
             slidesPerView: 5,
+          },
+          924: {
+            slidesPerView: 4,
+          },
+          768: {
+            slidesPerView: 4,
           },
           580: {
             slidesPerView: 4,
@@ -50,7 +50,7 @@ export default function Slider({
           delay,
           disableOnInteraction: false,
         }}
-        loop={true}
+        loop={children.length > 1 ? true : false}
         // pagination={{
         //   clickable: true,
         // }}

@@ -10,6 +10,7 @@ interface SmallMovieCardProps {
   rating: number;
   styles?: string;
   href: string;
+  type: string;
 }
 
 export default function SmallMovieCard({
@@ -19,18 +20,22 @@ export default function SmallMovieCard({
   rating,
   styles,
   href,
+  type,
 }: SmallMovieCardProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
     <Link
-      href={href}
+      href={{
+        pathname: href,
+        query: { type: type },
+      }}
       className={`movie-card z-[2000] relative cursor-pointer ${styles}`}
     >
       <div className="relative">
         <Image
           src={imageUrl(image)}
-          className="rounded-xl absolute top-0"
+          className="rounded-xl absolute top-0 h-full aspect-[2/3] w-full"
           alt={title || "Movie Image"}
           width={180}
           height={240}
@@ -44,7 +49,7 @@ export default function SmallMovieCard({
         />
         <div className=" absolute -bottom-[18px] left-3">
           <svg
-            className="bg-white rounded-full p-[2px] w-9     h-9"
+            className="bg-white rounded-full p-[2px] w-9 sm:w-10     h-9 sm:h-10"
             viewBox="0 0 100 100"
             data-test-id="CircularProgressbar"
           >

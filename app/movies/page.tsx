@@ -149,6 +149,7 @@ function Movies() {
                 ) as string[]
               }
               href={`/movies/details/${movie.id}`}
+              type="movie"
             />
           ))}
           {isFetching &&

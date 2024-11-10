@@ -1,16 +1,15 @@
-import {
-  useGetMovieAllImagesQuery,
-  useGetMovieAllVideosQuery,
-} from "@/lib/features/movie/movie-api";
 import { getPosterImageFullPath } from "@/lib/helper";
+import { MoviePoster, VideoDetails } from "@/lib/types";
 import { Tab, TabGroup, TabPanel, TabPanels } from "@headlessui/react";
 import Image from "next/image";
 
-export default function TabItem({ id }: { id: string }) {
-  const { data: movieAllPosters } = useGetMovieAllImagesQuery(`movie/${id}`);
-  const { data: { results: movieAllVideos = [] } = {} } =
-    useGetMovieAllVideosQuery(`movie/${id}`);
-
+export default function TabItem({
+  movieAllPosters,
+  movieAllVideos,
+}: {
+  movieAllPosters: MoviePoster[];
+  movieAllVideos: VideoDetails[];
+}) {
   return (
     <div className=" w-full py-6 ">
       <div className="w-full ">
@@ -63,8 +62,8 @@ export default function TabItem({ id }: { id: string }) {
             </TabPanel>
             <TabPanel className="rounded-xl overflow-x-auto " key={2}>
               <div className="flex  mb-4 gap-2 px-4">
-                {movieAllPosters?.posters.length ? (
-                  movieAllPosters?.posters.map((poster) => (
+                {movieAllPosters?.length ? (
+                  movieAllPosters?.map((poster) => (
                     <Image
                       width={180}
                       height={240}

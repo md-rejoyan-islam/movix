@@ -53,6 +53,7 @@ function TopRated() {
                   image={movie.poster_path}
                   rating={movie.vote_average}
                   href={`/movies/details/${movie.id}`}
+                  type="movie"
                 />
               ))
             : topRatedTvShow?.map((movie) => (
@@ -63,6 +64,7 @@ function TopRated() {
                   image={movie.poster_path}
                   rating={movie.vote_average}
                   href={`/movies/details/${movie.id}`}
+                  type="tv"
                 />
               ))}
         </Slider>

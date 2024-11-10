@@ -185,7 +185,7 @@ export interface MovieDetails {
   vote_count: number;
 }
 
-interface MoviePoster {
+export interface MoviePoster {
   aspect_ratio: number;
   height: number;
   iso_639_1: string | null;
@@ -202,7 +202,7 @@ export interface MovieImagesResponse {
   logos: MoviePoster[];
 }
 
-interface VideoDetails {
+export interface VideoDetails {
   iso_639_1: string; // Language code, e.g., "en"
   iso_3166_1: string; // Country code, e.g., "US"
   name: string; // Name of the video, e.g., "UK Screening Audience Reactions"

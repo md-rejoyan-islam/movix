@@ -10,6 +10,7 @@ interface SmallMovieCardProps {
   rating: number;
   genres: string[];
   href: string;
+  type: string;
 }
 
 export default function MovieCard({
@@ -19,11 +20,18 @@ export default function MovieCard({
   rating,
   genres,
   href,
+  type,
 }: SmallMovieCardProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   return (
-    <Link href={href} className="card  w-full ">
+    <Link
+      href={{
+        pathname: href,
+        query: { type: type },
+      }}
+      className="card  w-full "
+    >
       <div className="relative">
         <Image
           src={imageUrl(image)}

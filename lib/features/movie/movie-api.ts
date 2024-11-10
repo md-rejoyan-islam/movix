@@ -101,6 +101,15 @@ const movieAPI = movieSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getSearchedMovies: builder.query<MoviesResponse, string>({
+      query: (query: string) => ({
+        url: `/search/multi?query=${query}`,
+        method: "GET",
+        params: {
+          query,
+        },
+      }),
+    }),
   }),
 });
 
@@ -119,4 +128,5 @@ export const {
   useGetSimilarMoviesQuery,
   useGetMovieAllImagesQuery,
   useGetMovieAllVideosQuery,
+  useGetSearchedMoviesQuery,
 } = movieAPI;

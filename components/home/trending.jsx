@@ -58,6 +58,7 @@ function Trending() {
                     image={movie.poster_path}
                     rating={movie.vote_average}
                     href={`/movies/details/${movie.id}`}
+                    type="movie"
                   />
                 ))
               : trendingWeekMovies?.map((movie) => (
@@ -68,6 +69,7 @@ function Trending() {
                     image={movie.poster_path}
                     rating={movie.vote_average}
                     href={`/movies/details/${movie.id}`}
+                    type="movie"
                   />
                 ))}
           </Slider>

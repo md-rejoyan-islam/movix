@@ -195,6 +195,7 @@ function PopularTvShows() {
                   ) as string[]
                 }
                 href={`/tv-shows/details/${movie.id}`}
+                type="tv"
               />
             ))}
             {isFetching &&

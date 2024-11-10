@@ -3,6 +3,8 @@ import { useState } from "react";
 
 import Loading from "@/app/loading";
 import {
+  useGetMovieAllImagesQuery,
+  useGetMovieAllVideosQuery,
   useGetMovieCreditsQuery,
   useGetRecommendationsMoviesQuery,
   useGetSimilarMoviesQuery,
@@ -33,6 +35,9 @@ function SingleMovie({ href }: { href: string }) {
   const { data: credits } = useGetMovieCreditsQuery(href);
   const { data: { results: recommendationsMovies = [] } = {} } =
     useGetRecommendationsMoviesQuery(href);
+  const { data: movieAllPosters } = useGetMovieAllImagesQuery(`movie/${id}`);
+  const { data: { results: movieAllVideos = [] } = {} } =
+    useGetMovieAllVideosQuery(`movie/${id}`);
 
   const { data: { results: similarMovies = [] } = {} } =
     useGetSimilarMoviesQuery(href);
@@ -237,7 +242,10 @@ function SingleMovie({ href }: { href: string }) {
 
         <div className="cast py-6  relative">
           <h3 className="font-semibold text-xl md:text-2xl ">Media</h3>
-          <TabItem id={id} />
+          <TabItem
+            movieAllPosters={movieAllPosters?.posters || []}
+            movieAllVideos={movieAllVideos}
+          />
         </div>
         {/* Similar Movies */}
         <div className="cast py-6">
@@ -253,6 +261,7 @@ function SingleMovie({ href }: { href: string }) {
                   rating={movie.vote_average}
                   styles="min-w-[180px]"
                   href={`/movies/details/${movie.id}`}
+                  type={movie.media_type || "movie"}
                 />
               ))
             ) : (
@@ -277,6 +286,7 @@ function SingleMovie({ href }: { href: string }) {
                   rating={movie.vote_average}
                   styles="min-w-[180px]"
                   href={`/movies/details/${movie.id}`}
+                  type={movie.media_type || "movie"}
                 />
               ))
             ) : (
@@ -316,7 +326,9 @@ function SingleMovie({ href }: { href: string }) {
                     <DialogPanel className="w-fit overflow-hidden rounded-lg bg-white/5 backdrop-blur-2xl">
                       <iframe
                         className="w-[calc(100vw)] h-[calc(100vw*0.5625)] md:w-[calc(0.7*100vw)] md:h-[calc(0.7*100vw*0.5625)]  rounded-lg "
-                        src="//www.youtube.com/embed/rD7uk2hknPI?si=60V9ltZeSUo0Odjk&amp;origin=https%3A%2F%2Fwww.themoviedb.org&amp;hl=en&amp;modestbranding=1&amp;fs=1&amp;autohide=1"
+                        src={`//www.youtube.com/embed/${
+                          movieAllVideos[0]?.key || ""
+                        }`}
                       ></iframe>
                     </DialogPanel>
                   </TransitionChild>

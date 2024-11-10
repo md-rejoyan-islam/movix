@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 
+import Loading from "@/app/loading";
 import {
   useGetMovieCreditsQuery,
   useGetRecommendationsMoviesQuery,
@@ -19,7 +20,7 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { RxCross2 } from "react-icons/rx";
 import SmallMovieCard from "../movie-card/small-movie-card";
 import CastCard from "./cast-card";
@@ -28,7 +29,7 @@ import TabItem from "./tab";
 function SingleMovie({ href }: { href: string }) {
   const { id }: { id: string } = useParams();
 
-  const { data: movie } = useGetSingleMovieByIdQuery(href);
+  const { data: movie, isLoading } = useGetSingleMovieByIdQuery(href);
   const { data: credits } = useGetMovieCreditsQuery(href);
   const { data: { results: recommendationsMovies = [] } = {} } =
     useGetRecommendationsMoviesQuery(href);
@@ -44,6 +45,11 @@ function SingleMovie({ href }: { href: string }) {
   function close() {
     setIsOpen(false);
   }
+
+  if (!isLoading && !movie) notFound();
+
+  if (isLoading) return <Loading />;
+
   return (
     <>
       <section className="max-w-container px-6  text-white">
@@ -53,7 +59,7 @@ function SingleMovie({ href }: { href: string }) {
             alt={movie?.title || movie?.name || ""}
             width={1920}
             height={1080}
-            className=" w-screen h-full object-cover  filter brightness-50  "
+            className=" w-screen h-full object-cover  filter brightness-50  bg-blue-400 "
           />
           <div className="opacity-layer"></div>
         </div>
@@ -169,19 +175,23 @@ function SingleMovie({ href }: { href: string }) {
             </div>
             <div className="pt-7">
               <h3 className="text-xl md:text-[24px]">Overview</h3>
-              <p className="pt-1">{movie?.overview}</p>
+              <p className="pt-1 opacity-60">
+                {movie?.overview || "Not Available"}
+              </p>
             </div>
             <div className="flex gap-x-8 py-6 border-b border-[rgba(255,255,255,.1)]">
               <div className="flex gap-3">
                 <h4>Status:</h4>
-                <p className="opacity-50">{movie?.status}</p>
+                <p className="opacity-50">{movie?.status || "Not Available"}</p>
               </div>
               <div className="flex gap-3">
                 <h4>Release Date:</h4>
                 <p className="opacity-50">
-                  {formatDate(
-                    movie?.release_date || movie?.first_air_date || ""
-                  )}
+                  {movie?.release_date || movie?.first_air_date
+                    ? formatDate(
+                        movie?.release_date || movie?.first_air_date || ""
+                      )
+                    : "Not Available"}
                 </p>
               </div>
               <div className="flex gap-3">
@@ -194,7 +204,7 @@ function SingleMovie({ href }: { href: string }) {
               <h4>Director: </h4>
               <p className="opacity-50">
                 {credits?.crew.find((crew) => crew.job === "Director")?.name ||
-                  ""}
+                  "Not Found"}
               </p>{" "}
             </div>
             <div className="py-3 border-b border-[rgba(255,255,255,.1)] flex gap-3">
@@ -203,63 +213,82 @@ function SingleMovie({ href }: { href: string }) {
                 {credits?.crew.find(
                   (crew) =>
                     crew.job === "Writer" || crew.department === "Writing"
-                )?.name || ""}
+                )?.name || "Not Found"}
               </p>{" "}
             </div>
           </div>
         </div>
+        {/* top billing cast  */}
+
         <div className="cast py-6  relative">
           <h3 className="font-semibold text-xl md:text-2xl ">
             Top Billed Cast
           </h3>
           <div className="flex gap-x-5 overflow-x-auto pt-3 pb-5">
-            {credits?.cast.slice(0, 15).map((cast) => (
-              <CastCard key={cast.id} cast={cast} />
-            ))}
-
-            {/* <CastCard /> */}
+            {credits?.cast?.length ? (
+              credits?.cast
+                .slice(0, 20)
+                .map((cast) => <CastCard key={cast.id} cast={cast} />)
+            ) : (
+              <p className="text-white opacity-60 py-2">No Cast Found</p>
+            )}
           </div>
         </div>
+
         <div className="cast py-6  relative">
           <h3 className="font-semibold text-xl md:text-2xl ">Media</h3>
           <TabItem id={id} />
         </div>
+        {/* Similar Movies */}
         <div className="cast py-6">
           <h3 className="font-semibold text-xl md:text-2xl ">Similar Movies</h3>
           <div className="flex gap-x-5 overflow-x-auto pt-3 pb-5">
-            {similarMovies?.map((movie) => (
-              <SmallMovieCard
-                key={movie.id}
-                title={movie.name || movie.title || ""}
-                image={movie.poster_path}
-                date={movie.first_air_date || movie.release_date || ""}
-                rating={movie.vote_average}
-                styles="min-w-[180px]"
-                href={`/movies/details/${movie.id}`}
-              />
-            ))}
+            {similarMovies.length ? (
+              similarMovies?.map((movie) => (
+                <SmallMovieCard
+                  key={movie.id}
+                  title={movie.name || movie.title || ""}
+                  image={movie.poster_path}
+                  date={movie.first_air_date || movie.release_date || ""}
+                  rating={movie.vote_average}
+                  styles="min-w-[180px]"
+                  href={`/movies/details/${movie.id}`}
+                />
+              ))
+            ) : (
+              <p className="text-white opacity-60 py-2">No Similar Movies</p>
+            )}
           </div>
         </div>
+
+        {/* Recommendations movies  */}
         <div className="cast py-6">
           <h3 className="font-semibold text-xl md:text-2xl ">
-            Recommendations
+            Recommendations Movies
           </h3>
           <div className="flex gap-x-5 overflow-x-auto pt-3 pb-5">
-            {recommendationsMovies.map((movie) => (
-              <SmallMovieCard
-                key={movie.id}
-                title={movie.name || movie.title || ""}
-                image={movie.poster_path}
-                date={movie.first_air_date || movie.release_date || ""}
-                rating={movie.vote_average}
-                styles="min-w-[180px]"
-                href={`/movies/details/${movie.id}`}
-              />
-            ))}
+            {recommendationsMovies.length ? (
+              recommendationsMovies.map((movie) => (
+                <SmallMovieCard
+                  key={movie.id}
+                  title={movie.name || movie.title || ""}
+                  image={movie.poster_path}
+                  date={movie.first_air_date || movie.release_date || ""}
+                  rating={movie.vote_average}
+                  styles="min-w-[180px]"
+                  href={`/movies/details/${movie.id}`}
+                />
+              ))
+            ) : (
+              <p className="text-white opacity-60 py-2">
+                No Recommendations Movies
+              </p>
+            )}
           </div>
         </div>
       </section>
 
+      {/* open Trailer  */}
       <Transition appear show={isOpen}>
         <Dialog
           as="div"

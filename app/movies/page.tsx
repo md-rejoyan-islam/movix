@@ -18,6 +18,7 @@ import {
 import { getGenreNames, sortingOptions } from "@/lib/helper";
 import { Genre, TopMoviesDetails } from "@/lib/types";
 import React from "react";
+import Loading from "../loading";
 
 function Movies() {
   const [sortBy, setSortBy] = React.useState<string>("popularity.desc");
@@ -49,7 +50,7 @@ function Movies() {
 
   // Infinite scroll handler
   React.useEffect(() => {
-    const debounceTimeout = 300; // debounce delay in ms
+    const debounceTimeout = 200; // debounce delay in ms
     let timeoutId: NodeJS.Timeout;
 
     const handleScroll = () => {
@@ -78,6 +79,8 @@ function Movies() {
     label: genre.name,
     value: genre.id.toString(),
   }));
+
+  if (isLoading) return <Loading />;
 
   return (
     <section className="pt-[61px]">

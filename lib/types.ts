@@ -201,3 +201,21 @@ export interface MovieImagesResponse {
   posters: MoviePoster[];
   logos: MoviePoster[];
 }
+
+interface VideoDetails {
+  iso_639_1: string; // Language code, e.g., "en"
+  iso_3166_1: string; // Country code, e.g., "US"
+  name: string; // Name of the video, e.g., "UK Screening Audience Reactions"
+  key: string; // Video key, used to access the video on the platform, e.g., "mPQoGFlJQ5Q"
+  site: string; // Platform, e.g., "YouTube"
+  size: number; // Video resolution, e.g., 1080
+  type: string; // Video type, e.g., "Featurette"
+  official: boolean; // Indicates if it's an official video
+  published_at: string; // Publication date in ISO string format, e.g., "2024-10-09T11:55:00.000Z"
+  id: string; // Unique identifier, e.g., "6706d4e4003c9214a0b3e7cd"
+}
+
+export interface MovieVideosResponse {
+  id: number;
+  results: VideoDetails[];
+}

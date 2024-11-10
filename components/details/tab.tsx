@@ -1,10 +1,15 @@
-import { useGetMovieAllImagesQuery } from "@/lib/features/movie/movie-api";
+import {
+  useGetMovieAllImagesQuery,
+  useGetMovieAllVideosQuery,
+} from "@/lib/features/movie/movie-api";
 import { getPosterImageFullPath } from "@/lib/helper";
 import { Tab, TabGroup, TabPanel, TabPanels } from "@headlessui/react";
 import Image from "next/image";
 
 export default function TabItem({ id }: { id: string }) {
   const { data: movieAllPosters } = useGetMovieAllImagesQuery(`movie/${id}`);
+  const { data: { results: movieAllVideos = [] } = {} } =
+    useGetMovieAllVideosQuery(`movie/${id}`);
 
   return (
     <div className=" w-full py-6 ">
@@ -20,52 +25,58 @@ export default function TabItem({ id }: { id: string }) {
             Posters
           </Tab>
           <TabPanels className="pt-3 ">
-            {Array(2)
-              .fill(null)
-              .map((_, i) => (
-                <TabPanel
-                  className="rounded-xl  overflow-hidden overflow-x-auto "
-                  key={i}
-                >
-                  <div className="flex  mb-4">
-                    <iframe
-                      className="min-w-[420px] min-h-[calc(420px*.5625)]  "
-                      src="//www.youtube.com/embed/rD7uk2hknPI?si=60V9ltZeSUo0Odjk&amp;origin=https%3A%2F%2Fwww.themoviedb.org&amp;hl=en&amp;modestbranding=1&amp;fs=1&amp;autohide=1"
-                    ></iframe>
-                    <iframe
-                      className="min-w-[420px] min-h-[calc(420px*.5625)]   "
-                      src="//www.youtube.com/embed/rD7uk2hknPI?si=60V9ltZeSUo0Odjk&amp;origin=https%3A%2F%2Fwww.themoviedb.org&amp;hl=en&amp;modestbranding=1&amp;fs=1&amp;autohide=1"
-                    ></iframe>
-                    <iframe
-                      className="min-w-[420px] min-h-[calc(420px*.5625)]   "
-                      src="//www.youtube.com/embed/rD7uk2hknPI?si=60V9ltZeSUo0Odjk&amp;origin=https%3A%2F%2Fwww.themoviedb.org&amp;hl=en&amp;modestbranding=1&amp;fs=1&amp;autohide=1"
-                    ></iframe>
-                    <iframe
-                      className="min-w-[420px] min-h-[calc(420px*.5625)]   "
-                      src="//www.youtube.com/embed/rD7uk2hknPI?si=60V9ltZeSUo0Odjk&amp;origin=https%3A%2F%2Fwww.themoviedb.org&amp;hl=en&amp;modestbranding=1&amp;fs=1&amp;autohide=1"
-                    ></iframe>
-                    <iframe
-                      className="min-w-[420px] min-h-[calc(420px*.5625)]  "
-                      src="//www.youtube.com/embed/rD7uk2hknPI?si=60V9ltZeSUo0Odjk&amp;origin=https%3A%2F%2Fwww.themoviedb.org&amp;hl=en&amp;modestbranding=1&amp;fs=1&amp;autohide=1"
-                    ></iframe>
-                  </div>
-                </TabPanel>
-              ))}
-            <TabPanel
-              className="rounded-xl  overflow-hidden overflow-x-auto "
-              key={2}
-            >
-              <div className="flex  mb-4 gap-2">
-                {movieAllPosters?.posters.map((poster) => (
-                  <Image
-                    width={180}
-                    height={240}
-                    key={poster.file_path}
-                    src={getPosterImageFullPath(poster.file_path || "")}
-                    alt={poster.file_path}
-                    className="min-w-[180px] min-h-[calc(180px*.5625)]  "
-                  />
-                ))}
+            <TabPanel className="rounded-xl overflow-x-auto " key={0}>
+              <div className="flex  mb-4 gap-2 px-4">
+                {movieAllVideos?.length ? (
+                  movieAllVideos?.map((video, index) => (
+                    <Image
+                      width={180}
+                      height={240}
+                      key={index}
+                      src={`https://img.youtube.com/vi/${video.key}/hqdefault.jpg`}
+                      alt={video.name}
+                      className="min-w-[180px] min-h-[calc(180px*.5625)]  rounded-sm  aspect-[2/3] "
+                    />
+                  ))
+                ) : (
+                  <p className="py-2 opacity-70">No Video Found</p>
+                )}
+              </div>
+            </TabPanel>
+            <TabPanel className="rounded-xl overflow-x-auto " key={1}>
+              <div className="flex  mb-4 gap-2 px-4">
+                {movieAllVideos?.length ? (
+                  movieAllVideos?.map((video, index) => (
+                    <Image
+                      width={180}
+                      height={240}
+                      key={index}
+                      src={`https://img.youtube.com/vi/${video.key}/hqdefault.jpg`}
+                      alt={video.name}
+                      className="min-w-[180px] min-h-[calc(180px*.5625)]  rounded-sm  aspect-[2/3] "
+                    />
+                  ))
+                ) : (
+                  <p className="py-2 opacity-70">No Video Found</p>
+                )}
+              </div>
+            </TabPanel>
+            <TabPanel className="rounded-xl overflow-x-auto " key={2}>
+              <div className="flex  mb-4 gap-2 px-4">
+                {movieAllPosters?.posters.length ? (
+                  movieAllPosters?.posters.map((poster) => (
+                    <Image
+                      width={180}
+                      height={240}
+                      key={poster.file_path}
+                      src={getPosterImageFullPath(poster.file_path || "")}
+                      alt={poster.file_path}
+                      className="min-w-[180px] min-h-[calc(180px*.5625)]  rounded-sm  aspect-[2/3] "
+                    />
+                  ))
+                ) : (
+                  <p className="py-2 opacity-70">No Posters Found</p>
+                )}
               </div>
             </TabPanel>
           </TabPanels>

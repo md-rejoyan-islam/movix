@@ -4,6 +4,7 @@ import {
   MovieDetails,
   MovieImagesResponse,
   MoviesResponse,
+  MovieVideosResponse,
   PopularTheaterMoviesResponse,
   PopularTvMoviesResponse,
   TopRatedMoviesResponse,
@@ -94,6 +95,12 @@ const movieAPI = movieSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    getMovieAllVideos: builder.query<MovieVideosResponse, string>({
+      query: (query: string) => ({
+        url: `/${query}/videos`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -111,4 +118,5 @@ export const {
   useGetRecommendationsMoviesQuery,
   useGetSimilarMoviesQuery,
   useGetMovieAllImagesQuery,
+  useGetMovieAllVideosQuery,
 } = movieAPI;

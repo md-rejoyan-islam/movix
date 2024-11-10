@@ -27,7 +27,7 @@ export default function MovieCard({
       <div className="relative">
         <Image
           src={imageUrl(image)}
-          className="rounded-xl absolute top-0"
+          className="rounded-xl absolute top-0 h-full"
           alt="Top Rated Movie"
           width={200}
           height={300}

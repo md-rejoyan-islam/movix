@@ -65,7 +65,10 @@ export const getBackdropImageFullPath = (path: string) => {
 // get poster image full path
 export const getPosterImageFullPath = (path: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_ORIGINAL_IMAGE_BASE_URL || "";
-  return baseUrl + path;
+  const defaultImage =
+    process.env.NEXT_PUBLIC_DEFAULT_IMAGE ||
+    "https://image.tmdb.org/t/p/w500/AgBNLcHFEXCRFZuKv0H8RWMxNAJ.jpg";
+  return path ? baseUrl + path : defaultImage;
 };
 
 // get cast image full path

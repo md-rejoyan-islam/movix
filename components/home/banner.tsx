@@ -1,12 +1,15 @@
 "use client";
 
+import Loading from "@/app/loading";
 import { useTrendingMoviesInTodayQuery } from "@/lib/features/movie/movie-api";
 import { getRandomImagePath } from "@/lib/helper";
 import Image from "next/image";
 
 export default function Banner() {
-  const { data: { results: trendingTodayMovies = [] } = {} } =
+  const { data: { results: trendingTodayMovies = [] } = {}, isLoading } =
     useTrendingMoviesInTodayQuery();
+
+  if (isLoading) return <Loading />;
 
   return (
     <section className="min-h-[450px] md:min-h-[700px] md:h-full  flex items-center relative text-white px-4">

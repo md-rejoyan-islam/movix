@@ -1,5 +1,5 @@
 "use client";
-import LoadingCard from "@/components/movie-card/loading-card";
+import CircleLoader from "@/components/loader/circle-loader";
 import MovieCard from "@/components/movie-card/movie-card";
 import {
   Accordion,
@@ -22,15 +22,17 @@ import {
 } from "@/lib/features/movie/movie-api";
 import { getGenreNames, sortingOptions } from "@/lib/helper";
 import { Genre, TopMoviesDetails } from "@/lib/types";
-import React, { useState } from "react";
+import React from "react";
 
 function PopularTvShows() {
   const [sortBy, setSortBy] = React.useState<string>("popularity.desc");
-  const [page, setPage] = React.useState<number>(1);
   const [moviesList, setMoviesList] = React.useState<TopMoviesDetails[]>([]);
-  const [selectedGenres, setSelectedGenres] = useState<Genre[]>([]);
+  const [page, setPage] = React.useState<number>(1);
+  const [hasMore, setHasMore] = React.useState<boolean>(true);
+  const loaderRef = React.useRef(null);
+  const [selectedGenres, setSelectedGenres] = React.useState<Genre[]>([]);
 
-  const { data, isLoading, isFetching } = useSortingMoviesQuery(
+  const { data } = useSortingMoviesQuery(
     `discover/tv?page=${page}&sort_by=${sortBy}&with_genres=${selectedGenres.map(
       (genre) => genre.id
     )}`
@@ -39,45 +41,82 @@ function PopularTvShows() {
   const { data: { genres = [] } = {} } = useGetGenreListQuery("/tv/list");
 
   // Load data into moviesList when data or page changes
+  // React.useEffect(() => {
+  //   if (data && data?.results) {
+  //     setMoviesList((prev) => {
+  //       const combined = page === 1 ? data.results : [...prev, ...data.results];
+  //       // Remove duplicates by creating a Map with unique movie IDs
+  //       const uniqueMovies = Array.from(
+  //         new Map(combined.map((movie) => [movie.id, movie])).values()
+  //       );
+  //       return uniqueMovies;
+  //     });
+  //   }
+  // }, [data, page]);
+
   React.useEffect(() => {
-    if (data && data?.results) {
-      setMoviesList((prev) => {
-        const combined = page === 1 ? data.results : [...prev, ...data.results];
-        // Remove duplicates by creating a Map with unique movie IDs
-        const uniqueMovies = Array.from(
-          new Map(combined.map((movie) => [movie.id, movie])).values()
-        );
-        return uniqueMovies;
-      });
-    }
-  }, [data, page]);
-
-  // Infinite scroll handler
-  React.useEffect(() => {
-    const debounceTimeout = 300; // debounce delay in ms
-    let timeoutId: NodeJS.Timeout;
-
-    const handleScroll = () => {
-      // Check if the user is within 10 pixels of the bottom of the page
-      const isBottom =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 800;
-
-      if (isBottom && !isLoading) {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
+    const fetchProducts = async () => {
+      if (data?.results.length === 0) {
+        setHasMore(false);
+      } else {
+        if (data?.results) {
+          const combined = [...moviesList, ...data.results];
+          // Remove duplicates by creating a Map with unique movie IDs
+          const uniqueMovies = Array.from(
+            new Map(combined.map((movie) => [movie.id, movie])).values()
+          );
+          setMoviesList(uniqueMovies);
           setPage((prevPage) => prevPage + 1);
-        }, debounceTimeout);
+        }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const onIntersection = (items: IntersectionObserverEntry[]) => {
+      const loaderItem = items[0];
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(timeoutId);
+      if (loaderItem.isIntersecting && hasMore) {
+        fetchProducts();
+      }
     };
-  }, [isLoading]);
+
+    const observer = new IntersectionObserver(onIntersection);
+
+    if (observer && loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    // cleanup
+    return () => {
+      if (observer) observer.disconnect();
+    };
+  }, [hasMore, page, data?.results, moviesList]);
+
+  // Infinite scroll handler
+  // React.useEffect(() => {
+  //   const debounceTimeout = 200; // debounce delay in ms
+  //   let timeoutId: NodeJS.Timeout;
+
+  //   const handleScroll = () => {
+  //     // Check if the user is within 10 pixels of the bottom of the page
+  //     const isBottom =
+  //       window.innerHeight + window.scrollY >=
+  //       document.documentElement.scrollHeight - 800;
+
+  //     if (isBottom && !isLoading) {
+  //       clearTimeout(timeoutId);
+  //       timeoutId = setTimeout(() => {
+  //         setPage((prevPage) => prevPage + 1);
+  //       }, debounceTimeout);
+  //     }
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //     clearTimeout(timeoutId);
+  //   };
+  // }, [isLoading]);
 
   return (
     <>
@@ -178,26 +217,37 @@ function PopularTvShows() {
               </AccordionItem>
             </Accordion>
           </div>
-          <div className="card-items grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-4 xsm:grid-cols-3 grid-cols-2  pt-3 gap-x-4 gap-y-7  ">
-            {isFetching &&
-              Array.from({ length: 30 }).map((_, index) => (
-                <LoadingCard key={index} />
+
+          <div className="pt-3 w-full ">
+            <div className="card-items grid xl:grid-cols-6 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-4 xsm:grid-cols-3 grid-cols-2   gap-x-4 gap-y-7  ">
+              {/* {hasMore &&
+                Array.from({ length: 30 }).map((_, index) => (
+                  <LoadingCard key={index} />
+                ))} */}
+              {moviesList.map((movie) => (
+                <MovieCard
+                  key={movie.id}
+                  title={movie.name || movie.title || ""}
+                  image={movie.poster_path}
+                  date={movie.first_air_date || movie.release_date || ""}
+                  rating={movie.vote_average}
+                  genres={
+                    getGenreNames(movie, genres).filter(
+                      (genre) => genre !== undefined
+                    ) as string[]
+                  }
+                  href={`/tv-shows/details/${movie.id}`}
+                />
               ))}
-            {moviesList.map((movie) => (
-              <MovieCard
-                key={movie.id}
-                title={movie.name || movie.title || ""}
-                image={movie.poster_path}
-                date={movie.first_air_date || movie.release_date || ""}
-                rating={movie.vote_average}
-                genres={
-                  getGenreNames(movie, genres).filter(
-                    (genre) => genre !== undefined
-                  ) as string[]
-                }
-                href={`/tv-shows/details/${movie.id}`}
-              />
-            ))}
+            </div>
+            {hasMore && (
+              <div
+                ref={loaderRef}
+                className="py-16 flex w-full justify-center items-center"
+              >
+                <CircleLoader styles="" />
+              </div>
+            )}
           </div>
         </div>
       </section>

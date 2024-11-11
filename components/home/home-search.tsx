@@ -40,6 +40,9 @@ export default function HomeSearch() {
               ? "rounded-[0_30px_0_0]"
               : "rounded-[0_30px_30px_0]"
           }`}
+          onClick={() => {
+            router.push(`/search?title=${searchValue}`);
+          }}
         >
           Search
         </button>

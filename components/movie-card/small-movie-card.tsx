@@ -35,7 +35,7 @@ export default function SmallMovieCard({
       <div className="relative">
         <Image
           src={imageUrl(image)}
-          className="rounded-xl absolute top-0 h-full aspect-[2/3] w-full"
+          className="rounded-xl absolute top-0 h-full aspect-[2/3] w-full text-white opacity-70"
           alt={title || "Movie Image"}
           width={180}
           height={240}

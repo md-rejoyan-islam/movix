@@ -136,6 +136,12 @@ function Movies() {
         </div>
 
         <div className="card-items grid xl:grid-cols-7 lg:grid-cols-6 md:grid-cols-5 sm:grid-cols-4 xsm:grid-cols-3 grid-cols-2   gap-x-4 gap-y-6 pt-6">
+          {/* if movies not found  */}
+          {moviesList.length === 0 && !isFetching && (
+            <div className="w-full text-center text-white py-8 col-span-full h-[60vh]">
+              <h2 className="text-2xl text-red-400">No Movies Found</h2>
+            </div>
+          )}
           {moviesList.map((movie) => (
             <MovieCard
               key={movie.id}

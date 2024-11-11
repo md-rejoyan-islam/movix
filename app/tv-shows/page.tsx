@@ -87,9 +87,9 @@ function PopularTvShows() {
       <section className="max-w-container pt-[61px] pb-10  px-4">
         <div className="flex gap-8 md:flex-nowrap flex-wrap md:py-10 py-4">
           <div className="min-w-[260px] space-y-4 w-full md:max-w-[280px] text-white md:sticky top-[80px] md:max-h-[572px] md:overflow-auto  md:h-screen">
-            <h2 className="text-[24px] text-white text-nowrap px-2 ">
+            <h1 className="text-[24px] text-white text-nowrap px-2 ">
               Explore TV Shows
-            </h2>
+            </h1>
             <Accordion
               type="single"
               collapsible
@@ -181,7 +181,13 @@ function PopularTvShows() {
               </AccordionItem>
             </Accordion>
           </div>
-          <div className="card-items grid xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-4 xsm:grid-cols-3 grid-cols-2  pt-3 gap-x-4 gap-y-7  ">
+          <div className="card-items flex-1 grid xl:grid-cols-5 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-4 xsm:grid-cols-3 grid-cols-2  pt-3 gap-x-4 gap-y-7  ">
+            {/* if movies not found  */}
+            {moviesList.length === 0 && !isFetching && (
+              <div className="w-full text-center text-white py-8 col-span-full">
+                <h2 className="text-2xl text-red-400">No Tv Shows Found</h2>
+              </div>
+            )}
             {moviesList.map((movie) => (
               <MovieCard
                 key={movie.id}

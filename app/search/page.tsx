@@ -67,12 +67,12 @@ export default function Search() {
 
   return (
     <section className="max-w-container pt-[61px] pb-10  px-4">
-      <div className="flex gap-7 items-center justify-between w-full  text-white pt-8 pb-4">
-        <h1 className="text-3xl font-semibold ">
+      <div className="w-full  text-white pt-8 pb-4">
+        <h1 className="text-2xl sm:text-3xl font-semibold  md:text-left text-center ">
           Search results for &quot;{title}&quot;
         </h1>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-4 pt-5">
+      <div className="grid grid-cols-2 xsm:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 pt-5">
         {/* <SingleMovie /> */}
         {moviesList?.map((movie) => (
           <SmallMovieCard

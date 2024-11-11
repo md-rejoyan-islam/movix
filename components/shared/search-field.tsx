@@ -32,7 +32,7 @@ function SearchField() {
       <div
         className={`${
           isOpen ? "translate-y-0 mt-[61px] " : "-translate-y-full   "
-        } fixed top-0  -z-50 w-full right-0 overflow-hidden backdrop-blur-2xl bg-[#0c0727a8] transition-transform duration-300  `}
+        } fixed top-0  -z-50 w-full right-0  backdrop-blur-2xl bg-[#0c0727f0] transition-transform duration-300  `}
       >
         <div className=" h-[60px] w-full  px-4 relative max-w-container">
           <div className="flex px-4 items-center text-white opacity-70 h-full">

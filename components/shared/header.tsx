@@ -41,7 +41,7 @@ const Header = () => {
       <header
         className={`${
           isOpen && "bg-secondary"
-        }  fixed inset-x-0   z-[1000] top-0 bg-[rgba(0,0,0,.25)]  backdrop-blur-sm border-b md:border-none border-[#231d43] text-white  transition-colors duration-300  `}
+        }  fixed inset-x-0   z-[2100] top-0 bg-[rgba(0,0,0,.25)]  backdrop-blur-sm border-b md:border-none border-[#231d43] text-white  transition-colors duration-300  `}
       >
         <div className=" w- max-w-container flex items-center justify-between md:px-6 ">
           {/* logo */}

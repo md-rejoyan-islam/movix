@@ -44,7 +44,7 @@ export default function Loading() {
 
       <div className="w-64 h-2 bg-slate-200 rounded-full overflow-hidden">
         <motion.div
-          className="h-full bg-black"
+          className="h-full bg-[#af275b]"
           initial={{ width: "0%" }}
           animate={{ width: `${progress}%` }}
         />

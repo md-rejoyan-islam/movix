@@ -9,12 +9,13 @@ import Loading from "../loading";
 export default function Search() {
   const searchParams = useSearchParams();
 
-  const [title, setTitle] = React.useState<string>("sonic");
+  const title = searchParams.get("title") || "sonic";
+
   const [moviesList, setMoviesList] = React.useState<TopMoviesDetails[]>([]);
 
   const [page, setPage] = React.useState<number>(1);
 
-  const { data, isLoading, refetch, handleClearSearch } = useSearch({
+  const { data, isLoading } = useSearch({
     title: title,
     page,
   });
@@ -68,7 +69,7 @@ export default function Search() {
     <section className="max-w-container pt-[61px] pb-10  px-4">
       <div className="flex gap-7 items-center justify-between w-full  text-white pt-8 pb-4">
         <h1 className="text-3xl font-semibold ">
-          Search results for "{title}"
+          Search results for &quot;{title}&quot;
         </h1>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-4 pt-5">
@@ -81,7 +82,7 @@ export default function Search() {
             rating={movie.vote_average || 0}
             image={movie.poster_path}
             href={`/movies/details/${movie.id}`}
-            type="movie"
+            type={movie.media_type || "movie"}
           />
         ))}
       </div>

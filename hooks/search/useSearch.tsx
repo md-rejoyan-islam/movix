@@ -11,13 +11,10 @@ export default function useSearch({
   const [searchValue, setSearchValue] = React.useState<string>("");
   const [query, setQuery] = React.useState<string>(title || "");
 
-  const { data, isLoading, isError, error, refetch } =
-    useGetSearchedMoviesQuery({
-      query,
-      page: page,
-    });
-
-  console.log(data);
+  const { data, isLoading, refetch } = useGetSearchedMoviesQuery({
+    query,
+    page: page,
+  });
 
   // debounce search
   const timeoutId = React.useRef<NodeJS.Timeout | null>(null);
@@ -41,6 +38,13 @@ export default function useSearch({
     setQuery("");
     setSearchValue("");
   };
+
+  // if title changed, reset page to 1 and refetch
+  React.useEffect(() => {
+    if (title) {
+      setQuery(title);
+    }
+  }, [title]);
 
   return {
     searchValue,

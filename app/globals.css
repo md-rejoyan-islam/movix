@@ -7,6 +7,11 @@ body {
   background-color: var(--bg-primary);
 }
 
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-primary);
+}
+
 :root {
   --bg-primary: #04152d;
   --pink: #da2f68;
@@ -49,7 +54,6 @@ header li a.active {
 }
 .play-movie-btn:hover > span {
   color: var(--pink);
-
   transition: all 0.7s ease-in-out;
 }
 

@@ -1,4 +1,3 @@
-import LoadingWrapper from "@/components/loading-wrapper";
 import Footer from "@/components/shared/footer";
 import Header from "@/components/shared/header";
 import type { Metadata } from "next";
@@ -32,13 +31,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
-        <LoadingWrapper>
-          <StoreProvider>
-            <Header />
-            <main>{children}</main>
-            <Footer />
-          </StoreProvider>
-        </LoadingWrapper>
+        <StoreProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );

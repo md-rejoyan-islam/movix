@@ -66,7 +66,7 @@ export default function Search() {
   if (isLoading) return <Loading />;
 
   return (
-    <section className="max-w-container pt-[61px] pb-10  px-4">
+    <section className="max-w-container pt-[61px] pb-10  px-4 ">
       <div className="w-full  text-white pt-8 pb-4">
         <h1 className="text-2xl sm:text-3xl font-semibold  md:text-left text-center ">
           Search results for &quot;{title}&quot;

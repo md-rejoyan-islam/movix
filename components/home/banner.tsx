@@ -11,6 +11,7 @@ export default function Banner() {
     useTrendingMoviesInTodayQuery();
 
   if (isLoading) return <Loading />;
+  if (!trendingTodayMovies.length) return <div>No data found</div>;
 
   return (
     <section className="min-h-[450px] md:min-h-[700px] md:h-full  flex items-center relative text-white px-4">

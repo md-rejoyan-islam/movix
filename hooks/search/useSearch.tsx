@@ -52,7 +52,6 @@ export default function useSearch({
     data,
     handleClearSearch,
     isLoading,
-
     refetch,
   };
 }

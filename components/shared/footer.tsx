@@ -53,6 +53,8 @@ const Footer = () => {
               <li className=" " key={icon.id}>
                 <Link
                   href="#"
+                  title={icon.name}
+                  aria-label={icon.name}
                   className="p-2 rounded-full block hover:text-[#4eef86] hover:border-[#4eef86]  border "
                 >
                   <span className="icon">{icon.icon}</span>

@@ -25,6 +25,7 @@ function SearchField() {
             toggleMenu();
             inputRef.current?.focus();
           }}
+          aria-label="Search"
         >
           <Search className="mt-2 h-5" />
         </button>

@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   title: "Home | Movix",
   description:
     "Find your favorite movies and TV shows. Search, discover, and explore a vast collection of movies and TV shows with Movix.",
+  metadataBase: new URL("https://movix-cinema.vercel.app"),
   openGraph: {
     title: "Home",
     description:
@@ -76,7 +77,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
         <StoreProvider>

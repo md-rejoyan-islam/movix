@@ -10,7 +10,6 @@ export default function CircleLoader({ styles }: Readonly<{ styles: string }>) {
         ease: "linear",
         repeat: Infinity,
       }}
-      role="status"
       aria-label="Loading"
     />
   );

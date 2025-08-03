@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useState } from "react";
 
 interface SmallMovieCardProps {
-  image: string;
-  title: string;
-  date: string;
-  rating: number;
-  genres: string[];
-  href: string;
-  type: string;
+  readonly image: string;
+  readonly title: string;
+  readonly date: string;
+  readonly rating: number;
+  readonly genres: string[];
+  readonly href: string;
+  readonly type: string;
 }
 
 export default function MovieCard({

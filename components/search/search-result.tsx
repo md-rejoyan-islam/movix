@@ -26,7 +26,7 @@ const SearchResult = ({ title }: { title: string }) => {
   }, [title, refetch]);
 
   React.useEffect(() => {
-    if (data && data?.results) {
+    if (data?.results) {
       setMoviesList((prev) => {
         const combined = page === 1 ? data.results : [...prev, ...data.results];
         // Remove duplicates by creating a Map with unique movie IDs
@@ -82,8 +82,8 @@ const SearchResult = ({ title }: { title: string }) => {
       ))}
 
       {isFetching &&
-        Array.from({ length: 20 }).map((_, index) => (
-          <LoadingCard key={index} />
+        Array.from({ length: 20 }, (_, i) => i).map((val) => (
+          <LoadingCard key={val} />
         ))}
     </>
   );

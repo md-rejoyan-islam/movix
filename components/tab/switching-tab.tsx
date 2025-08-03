@@ -2,9 +2,9 @@
 import { useState } from "react";
 
 interface SwitchingTabProps {
-  left: string;
-  right: string;
-  setActiveIndex: (index: number) => void;
+  readonly left: string;
+  readonly right: string;
+  readonly setActiveIndex: (index: number) => void;
 }
 
 export default function SwitchingTab({

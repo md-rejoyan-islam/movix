@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  searchParams: Promise<{ sort_by: string; with_genres: string }>;
+  readonly searchParams: Promise<{ sort_by: string; with_genres: string }>;
 };
 
 async function Movies({ searchParams }: Props) {

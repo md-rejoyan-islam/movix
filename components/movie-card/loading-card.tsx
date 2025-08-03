@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function LoadingCard({ style }: { style?: string }) {
+export default function LoadingCard({ style }: { readonly style?: string }) {
   return (
     <Card
       className={`${style} overflow-hidden w-full bg-transparent border-none  `}

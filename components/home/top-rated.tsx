@@ -35,11 +35,10 @@ function TopRated() {
           `}
         >
           <Slider delay={1000}>
-            {Array.from({ length: 20 })
-              .fill(null)
-              .map((_, index) => (
-                <LoadingCard key={index} />
-              ))}
+            {Array.from({ length: 20 }, (_, index) => index)
+            .map((val) => (
+              <LoadingCard key={val} />
+            ))}
           </Slider>
         </div>
 

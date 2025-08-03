@@ -13,23 +13,21 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  searchParams: Promise<{ sort_by: string; with_genres: string }>;
+  readonly searchParams: Promise<{ sort_by: string; with_genres: string }>;
 };
 
 async function PopularTvShows({ searchParams }: Props) {
   const { sort_by, with_genres } = await searchParams;
 
   return (
-    <>
-      <section className="max-w-container pt-[61px] pb-10  px-4">
-        <div className="flex gap-8 md:flex-nowrap flex-wrap md:py-10 py-4">
-          <TvShowsFiltering
-            sort_by={sort_by}
-            with_genres={decodeURIComponent(with_genres || "")}
-          />
-        </div>
-      </section>
-    </>
+    <section className="max-w-container pt-[61px] pb-10  px-4">
+      <div className="flex gap-8 md:flex-nowrap flex-wrap md:py-10 py-4">
+        <TvShowsFiltering
+          sort_by={sort_by}
+          with_genres={decodeURIComponent(with_genres || "")}
+        />
+      </div>
+    </section>
   );
 }
 

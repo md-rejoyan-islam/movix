@@ -30,12 +30,12 @@ function TvShowsFiltering({
   sort_by,
   with_genres,
 }: {
-  sort_by?: string;
-  with_genres?: string;
+  readonly sort_by?: string;
+  readonly with_genres?: string;
 }) {
-  const [sortBy, setSortBy] = React.useState<string>(sort_by || "");
+  const [sortBy, setSortBy] = React.useState<string>(sort_by ?? "");
   const [page, setPage] = React.useState<number>(1);
-  //   const [moviesList, setMoviesList] = React.useState<TopMoviesDetails[]>([]);
+
   const [selectedGenres, setSelectedGenres] = useState<Genre[]>(
     with_genres
       ? with_genres.split(",").map((id) => ({
@@ -58,7 +58,6 @@ function TvShowsFiltering({
   const handleSortChange = (value: string) => {
     setSortBy(value);
     setPage(1);
-    // setMoviesList([]);
 
     params.delete("sort_by");
     params.append("sort_by", value);
@@ -122,45 +121,6 @@ function TvShowsFiltering({
     },
     500
   );
-
-  // Load data into moviesList when data or page changes
-  //   React.useEffect(() => {
-  //     if (data && data?.results) {
-  //       setMoviesList((prev) => {
-  //         const combined = page === 1 ? data.results : [...prev, ...data.results];
-  //         // Remove duplicates by creating a Map with unique movie IDs
-  //         const uniqueMovies = Array.from(
-  //           new Map(combined.map((movie) => [movie.id, movie])).values()
-  //         );
-  //         return uniqueMovies;
-  //       });
-  //     }
-  //   }, [data, page]);
-
-  //   const handleScrollLogic = useCallback(() => {
-  //     if (typeof window !== "undefined" && typeof document !== "undefined") {
-  //       const isBottom =
-  //         window.innerHeight + window.scrollY >=
-  //         document.documentElement.scrollHeight - 800;
-
-  //       if (isBottom && !isLoading && !isFetching) {
-  //         setPage((prevPage) => prevPage + 1);
-  //       }
-  //     }
-  //   }, [isLoading, isFetching]);
-
-  //   const debouncedHandleScroll = useDebouncedCallback(handleScrollLogic, 200);
-
-  //   React.useEffect(() => {
-  //     if (typeof window !== "undefined") {
-  //       window.addEventListener("scroll", debouncedHandleScroll);
-  //     }
-  //     return () => {
-  //       if (typeof window !== "undefined") {
-  //         window.removeEventListener("scroll", debouncedHandleScroll);
-  //       }
-  //     };
-  //   }, [debouncedHandleScroll]);
 
   if (isLoading) return <Loading />;
 
@@ -267,8 +227,8 @@ function TvShowsFiltering({
           />
         ))}
         {isFetching &&
-          Array.from({ length: 20 }).map((_, index) => (
-            <LoadingCard key={index} />
+          Array.from({ length: 20 }, (_, i) => i).map((val) => (
+            <LoadingCard key={val} />
           ))}
       </div>
     </>

@@ -39,11 +39,9 @@ function Popular() {
           `}
         >
           <Slider delay={1000}>
-            {Array.from({ length: 20 })
-              .fill(null)
-              .map((_, index) => (
-                <LoadingCard key={index} />
-              ))}
+            {Array.from({ length: 20 }, (_, index) => index).map((value) => (
+              <LoadingCard key={value} />
+            ))}
           </Slider>
         </div>
         <Slider delay={1500}>

@@ -4,13 +4,13 @@ import Image from "next/image";
 import { useState } from "react";
 import CircleLoader from "../loader/circle-loader";
 
-function CastCard({ cast }: { cast: CastMember }) {
+function CastCard({ cast }: { readonly cast: CastMember }) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   return (
     <div className="card w-fit rounded-[6px] min-w-[200px]  text-white">
       <div className="relative">
         <Image
-          src={getCastImageFullPath(cast.profile_path || "")}
+          src={getCastImageFullPath(cast.profile_path ?? "")}
           className="rounded-full w-[180px] h-[180px] object-cover mx-auto"
           width={160}
           height={160}

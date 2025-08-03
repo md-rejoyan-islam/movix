@@ -21,19 +21,19 @@ import {
 import { getGenreNames, sortingOptions } from "@/lib/helper";
 import { Genre } from "@/lib/types";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import { useState } from "react";
 
 function MoviesFiltering({
   sort_by,
   with_genres,
 }: {
-  sort_by?: string;
-  with_genres?: string;
+  readonly sort_by?: string;
+  readonly with_genres?: string;
 }) {
-  const [sortBy, setSortBy] = React.useState<string>(sort_by || "");
-  const [page, setPage] = React.useState<number>(1);
+  const [sortBy, setSortBy] = useState<string>(sort_by || "");
+  const [page, setPage] = useState<number>(1);
 
-  const [selectedGenres, setSelectedGenres] = React.useState<Genre[]>(
+  const [selectedGenres, setSelectedGenres] = useState<Genre[]>(
     with_genres
       ? with_genres.split(",").map((id) => ({
           id: +id,
@@ -174,8 +174,8 @@ function MoviesFiltering({
           />
         ))}
         {isFetching &&
-          Array.from({ length: 20 }).map((_, index) => (
-            <LoadingCard key={index} />
+          Array.from({ length: 20 }, (_, i) => i).map((val) => (
+            <LoadingCard key={val} />
           ))}
       </div>
     </>

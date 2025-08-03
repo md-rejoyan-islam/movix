@@ -95,7 +95,7 @@ export function useDebounce<T>(value: T, delay?: number): T {
   const [debouncedValue, setDebouncedValue] = React.useState<T>(value);
 
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedValue(value), delay || 500);
+    const timer = setTimeout(() => setDebouncedValue(value), delay ?? 500);
 
     return () => {
       clearTimeout(timer);
@@ -166,8 +166,8 @@ const CommandEmpty = forwardRef<
     <div
       ref={forwardedRef}
       className={cn("py-6 text-center text-sm", className)}
-      cmdk-empty=""
       role="presentation"
+      aria-label="No results found"
       {...props}
     />
   );
@@ -311,7 +311,7 @@ const MultipleSelector = React.forwardRef<
 
       const doSearchSync = () => {
         const res = onSearchSync?.(debouncedSearchTerm);
-        setOptions(transToGroupOption(res || [], groupBy));
+        setOptions(transToGroupOption(res ?? [], groupBy));
       };
 
       const exec = async () => {
@@ -336,7 +336,7 @@ const MultipleSelector = React.forwardRef<
       const doSearch = async () => {
         setIsLoading(true);
         const res = await onSearch?.(debouncedSearchTerm);
-        setOptions(transToGroupOption(res || [], groupBy));
+        setOptions(transToGroupOption(res ?? [], groupBy));
         setIsLoading(false);
       };
 
@@ -455,7 +455,8 @@ const MultipleSelector = React.forwardRef<
         } // When onSearch is provided, we don't want to filter the options. You can still override it.
         filter={commandFilter()}
       >
-        <div
+        <span
+          role="button"
           className={cn(
             "min-h-10 rounded-md border border-sky-600 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-sky-500 focus-within:ring-offset-0",
             {
@@ -480,7 +481,7 @@ const MultipleSelector = React.forwardRef<
                     badgeClassName
                   )}
                   data-fixed={option.fixed}
-                  data-disabled={disabled || undefined}
+                  data-disabled={disabled ?? undefined}
                 >
                   {option.label}
                   <button
@@ -560,7 +561,7 @@ const MultipleSelector = React.forwardRef<
               <X className="text-white hover:text-red-500" />
             </button>
           </div>
-        </div>
+        </span>
         <div className="relative">
           {open && (
             <CommandList

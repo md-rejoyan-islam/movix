@@ -20,7 +20,7 @@ const useInfityScroll = ({
   const [moviesList, setMoviesList] = React.useState<TopMoviesDetails[]>([]);
 
   React.useEffect(() => {
-    if (data && data?.results) {
+    if (data?.results) {
       setMoviesList((prev) => {
         const combined = page === 1 ? data.results : [...prev, ...data.results];
 

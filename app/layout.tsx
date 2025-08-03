@@ -40,6 +40,10 @@ export const metadata: Metadata = {
   twitter: {
     title: "Home",
     description: "Find your favorite movies and TV shows.",
+    card: "summary_large_image",
+    site: "@rejoyanislam",
+    creator: "@rejoyanislam",
+    images: ["/logo.png"],
   },
   icons: {
     icon: "/favicon.ico",
@@ -72,6 +76,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
         <StoreProvider>

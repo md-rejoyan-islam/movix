@@ -1,5 +1,5 @@
 import { useGetSearchedMoviesQuery } from "@/lib/features/movie/movie-api";
-import React from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function useSearch({
   title,
@@ -8,8 +8,8 @@ export default function useSearch({
   title?: string;
   page?: number;
 }) {
-  const [searchValue, setSearchValue] = React.useState<string>("");
-  const [query, setQuery] = React.useState<string>(title || "");
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [query, setQuery] = useState<string>(title ?? "");
 
   const { data, isLoading, refetch } = useGetSearchedMoviesQuery({
     query,
@@ -17,7 +17,7 @@ export default function useSearch({
   });
 
   // debounce search
-  const timeoutId = React.useRef<NodeJS.Timeout | null>(null);
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
@@ -40,7 +40,7 @@ export default function useSearch({
   };
 
   // if title changed, reset page to 1 and refetch
-  React.useEffect(() => {
+  useEffect(() => {
     if (title) {
       setQuery(title);
     }

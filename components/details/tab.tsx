@@ -19,7 +19,7 @@ export default function TabItem({
   movieAllPosters,
   movieAllVideos,
 }: {
-  movieAllPosters: {
+  readonly movieAllPosters: {
     posters: MoviePoster[];
     backdrops: MoviePoster[];
     logos: MoviePoster[];
@@ -48,10 +48,11 @@ export default function TabItem({
               <TabPanel className="rounded-xl overflow-x-auto " key={0}>
                 <div className="flex  mb-4 gap-2 px-4">
                   {movieAllVideos?.length ? (
-                    movieAllVideos?.map((video, index) => (
-                      <div
+                    movieAllVideos?.map((video) => (
+                      <button
+                        type="button"
                         className="relative group  transition-all duration-500 "
-                        key={index}
+                        key={video.key}
                         onClick={() => {
                           setIsOpen(true);
                           setCurrentVideoKey(video.key);
@@ -68,7 +69,7 @@ export default function TabItem({
                         <span className=" w-full h-full absolute top-0 play-movie-btn cursor-pointer flex justify-center items-center">
                           <VideoPlayIcon />
                         </span>
-                      </div>
+                      </button>
                     ))
                   ) : (
                     <p className="py-2 opacity-70">No Video Found</p>
@@ -78,11 +79,11 @@ export default function TabItem({
               <TabPanel className="rounded-xl overflow-x-auto " key={1}>
                 <div className="flex  mb-4 gap-2 px-4">
                   {movieAllPosters.backdrops.length ? (
-                    movieAllPosters.backdrops?.map((video, index) => (
+                    movieAllPosters.backdrops?.map((video) => (
                       <Image
                         width={180}
                         height={240}
-                        key={index}
+                        key={video.file_path}
                         src={getBackdropImageFullPath(video.file_path || "")}
                         alt={"Backdrop Image"}
                         className="min-w-[180px] min-h-[calc(180px*.5625)]  rounded-sm  aspect-[2/3] "

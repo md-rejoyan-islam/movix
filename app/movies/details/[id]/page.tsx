@@ -3,7 +3,7 @@ import { getPosterImageFullPath } from "@/lib/helper";
 import { Metadata } from "next";
 
 type Props = {
-  params: Promise<{ id: string }>;
+  readonly params: Promise<{ id: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

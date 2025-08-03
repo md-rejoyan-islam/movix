@@ -30,7 +30,7 @@ import { VideoPlayIcon } from "../svg";
 import CastCard from "./cast-card";
 import TabItem from "./tab";
 
-function SingleMovie({ href }: { href: string }) {
+function SingleMovie({ href }: { readonly href: string }) {
   const { id }: { id: string } = useParams();
 
   const { data: movie, isLoading } = useGetSingleMovieByIdQuery(href);
@@ -137,13 +137,13 @@ function SingleMovie({ href }: { href: string }) {
                   7.5
                 </text>
               </svg>
-              <div
+              <button
                 className="flex gap-x-8 items-center play-movie-btn"
                 onClick={open}
               >
                 <VideoPlayIcon />
                 <span className="text-xl font-semibold">Watch Trailer</span>
-              </div>
+              </button>
             </div>
             <div className="pt-7">
               <h3 className="text-xl md:text-[24px]">Overview</h3>

@@ -2,7 +2,7 @@ import SearchResult from "@/components/search/search-result";
 import { Metadata } from "next";
 
 type Props = {
-  searchParams: Promise<{ title: string }>;
+  readonly searchParams: Promise<{ title: string }>;
 };
 
 export async function generateMetadata({

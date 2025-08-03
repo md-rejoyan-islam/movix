@@ -2,8 +2,8 @@ import SingleMovie from "@/components/details/single-movie-details";
 import { Metadata } from "next";
 
 type Props = {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ type: string }>;
+  readonly params: Promise<{ id: string }>;
+  readonly searchParams: Promise<{ type: string }>;
 };
 
 export async function generateMetadata({

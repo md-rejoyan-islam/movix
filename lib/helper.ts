@@ -24,7 +24,7 @@ export const getRandomImagePath = (data: Movie[]) => {
 
   const imagePath = data[Math.ceil(Math.random() * data.length)]?.backdrop_path;
 
-  return imagePath ? baseUrl + imagePath : "/icon.png";
+  return imagePath ? baseUrl + imagePath : "/banner.webp";
 };
 
 // sorting

@@ -213,12 +213,12 @@ const MultipleSelector = React.forwardRef<
     const [isLoading, setIsLoading] = React.useState(false);
     const dropdownRef = React.useRef<HTMLDivElement>(null); // Added this
 
-    const [selected, setSelected] = React.useState<Option[]>(value || []);
+    const [selected, setSelected] = React.useState<Option[]>(value ?? []);
     const [options, setOptions] = React.useState<GroupOption>(
       transToGroupOption(arrayDefaultOptions, groupBy)
     );
     const [inputValue, setInputValue] = React.useState("");
-    const debouncedSearchTerm = useDebounce(inputValue, delay || 500);
+    const debouncedSearchTerm = useDebounce(inputValue, delay ?? 500);
 
     React.useImperativeHandle(
       ref,
@@ -468,6 +468,13 @@ const MultipleSelector = React.forwardRef<
           onClick={() => {
             if (disabled) return;
             inputRef?.current?.focus();
+          }}
+          onKeyDown={(e) => {
+            if (disabled) return;
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              inputRef?.current?.focus();
+            }
           }}
         >
           <div className="relative flex flex-wrap gap-1">

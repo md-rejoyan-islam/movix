@@ -81,7 +81,7 @@ function SearchField() {
                 <span>{movie.name || movie.original_title}</span>
               </Link>
             ))}
-            {data?.results.length === 0 && searchValue && (
+            {data?.results.length === 0 && (
               <p className="py-3 text-red-500 text-center opacity-70 px-4">
                 No Result Found
               </p>

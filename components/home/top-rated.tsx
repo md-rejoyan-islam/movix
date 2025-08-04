@@ -29,21 +29,36 @@ function TopRated() {
         />
       </div>
       <div className="overflow-hidden pb-10">
-        <div
-          className={`
-          ${isSuccess || isSuccess2 ? "hidden" : ""}
-          `}
-        >
-          <Slider delay={1000}>
-            {Array.from({ length: 20 }, (_, index) => index)
-            .map((val) => (
-              <LoadingCard key={val} />
-            ))}
-          </Slider>
-        </div>
-
         <Slider delay={1700}>
-          {activeIndex === 0
+          {!isSuccess || !isSuccess2
+            ? Array.from({ length: 20 }, (_, index) => index).map((value) => (
+                <LoadingCard key={value} />
+              ))
+            : activeIndex === 0
+            ? topRatedMovies?.map((movie) => (
+                <SmallMovieCard
+                  key={movie.id}
+                  title={movie.title}
+                  date={movie.release_date}
+                  image={movie.poster_path}
+                  rating={movie.vote_average}
+                  href={`/movies/details/${movie.id}`}
+                  type="movie"
+                />
+              ))
+            : topRatedTvShow?.map((tvShow) => (
+                <SmallMovieCard
+                  key={tvShow.id}
+                  title={tvShow.original_name}
+                  date={tvShow.first_air_date}
+                  image={tvShow.poster_path}
+                  rating={tvShow.vote_average}
+                  href={`/movies/details/${tvShow.id}`}
+                  type="tv"
+                />
+              ))}
+
+          {/* {activeIndex === 0
             ? topRatedMovies?.map((movie) => (
                 <SmallMovieCard
                   key={movie.id}
@@ -65,7 +80,7 @@ function TopRated() {
                   href={`/movies/details/${movie.id}`}
                   type="tv"
                 />
-              ))}
+              ))} */}
         </Slider>
       </div>
     </section>

@@ -62,7 +62,7 @@ export default function Slider({
       {children.map((child, i) => (
         <SwiperSlide
           key={i}
-          {...(i === 0 ? { "data-swiper-autoplay": "8000" } : {})} //  initial slide autoplay delay 8s
+          {...(i === 0 ? { "data-swiper-autoplay": "10000" } : {})} //  initial slide autoplay delay 8s
         >
           {child}
         </SwiperSlide>

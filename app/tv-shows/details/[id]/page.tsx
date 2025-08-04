@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         url: `https://movix-cinema.vercel.app/tv-shows/details/${id}`,
         images: [
           {
-            url: getPosterImageFullPath(movie?.poster_path || ""),
+            url: getPosterImageFullPath(movie.poster_path || ""),
             width: 1200,
             height: 630,
             alt: movie.original_title,

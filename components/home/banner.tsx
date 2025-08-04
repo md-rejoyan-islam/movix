@@ -1,17 +1,13 @@
 "use client";
 
-import Loading from "@/app/loading";
 import { useTrendingMoviesInTodayQuery } from "@/lib/features/movie/movie-api";
 import { getRandomImagePath } from "@/lib/helper";
 import Image from "next/image";
 import HomeSearch from "./home-search";
 
 export default function Banner() {
-  const { data: { results: trendingTodayMovies = [] } = {}, isLoading } =
+  const { data: { results: trendingTodayMovies = [] } = {} } =
     useTrendingMoviesInTodayQuery();
-
-  if (isLoading) return <Loading />;
-  if (!trendingTodayMovies.length) return <div>No data found</div>;
 
   return (
     <section className="min-h-[450px] md:min-h-[700px] md:h-full  flex items-center relative text-white px-4">
@@ -19,10 +15,9 @@ export default function Banner() {
         <Image
           src={getRandomImagePath(trendingTodayMovies)}
           className="w-full h-full object-cover  opacity-80 bg-bg_primary object-center  "
-          alt="Banner Image"
-          width={1920}
           priority
-          height={1080}
+          alt="Banner Image"
+          fill
         />
 
         <div className="opacity-layer"></div>

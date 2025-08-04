@@ -224,7 +224,7 @@ function SingleMovie({ href }: { readonly href: string }) {
           <h3 className="font-semibold text-xl md:text-2xl ">Similar Movies</h3>
           <div className="flex gap-x-5 overflow-x-auto pt-3 pb-5">
             {similarMovies.length ? (
-              similarMovies?.map((movie) => (
+              similarMovies.map((movie) => (
                 <SmallMovieCard
                   key={movie.id}
                   title={movie.name || movie.title || ""}

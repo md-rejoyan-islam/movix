@@ -79,7 +79,7 @@ export default function TabItem({
               <TabPanel className="rounded-xl overflow-x-auto " key={1}>
                 <div className="flex  mb-4 gap-2 px-4">
                   {movieAllPosters.backdrops.length ? (
-                    movieAllPosters.backdrops?.map((video) => (
+                    movieAllPosters.backdrops.map((video) => (
                       <Image
                         width={180}
                         height={240}
@@ -96,8 +96,8 @@ export default function TabItem({
               </TabPanel>
               <TabPanel className="rounded-xl overflow-x-auto " key={2}>
                 <div className="flex  mb-4 gap-2 px-4">
-                  {movieAllPosters?.posters?.length ? (
-                    movieAllPosters?.posters?.map((poster) => (
+                  {movieAllPosters.posters?.length ? (
+                    movieAllPosters.posters.map((poster) => (
                       <Image
                         width={180}
                         height={240}

@@ -69,7 +69,7 @@ const SearchResult = ({ title }: { title: string }) => {
         </div>
       )}
 
-      {moviesList?.map((movie) => (
+      {moviesList.map((movie) => (
         <SmallMovieCard
           key={movie.id}
           title={movie.name || movie.title || ""}

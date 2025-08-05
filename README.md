@@ -126,3 +126,5 @@ Movix is a feature-rich web application that provides users with an extensive da
 ## Preview
 
 [Live Preview](https://movix-cinema.vercel.app)
+
+[![DeepScan grade](https://deepscan.io/api/teams/27701/projects/30098/branches/964491/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=27701&pid=30098&bid=964491)

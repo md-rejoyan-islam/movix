@@ -23,9 +23,13 @@ RUN pnpm run build
 # Back to root
 WORKDIR /app
 
-# Copy start script
-COPY start.sh ./
-RUN chmod +x start.sh
+# Create start script inline
+RUN echo '#!/bin/sh' > start.sh && \
+    echo 'cd /app/server' >> start.sh && \
+    echo 'node dist/main.js &' >> start.sh && \
+    echo 'cd /app/client' >> start.sh && \
+    echo 'node .next/standalone/server.js' >> start.sh && \
+    chmod +x start.sh
 
 ENV NODE_ENV=production
 

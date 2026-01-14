@@ -1,0 +1,758 @@
+openapi: 3.0.3
+info:
+  title: Movix API
+  description: |
+    RESTful API for the Movix application - A movie and TV show discovery platform.
+
+    ## Features
+    - **Authentication**: User registration, login, password reset with JWT tokens
+    - **User Management**: Profile management and account operations
+    - **Wishlist**: Save and manage favorite movies and TV shows
+
+    ## Authentication
+    This API uses JWT Bearer token authentication. Include the access token in the Authorization header:
+    ```
+    Authorization: Bearer <access_token>
+    ```
+
+    ## Rate Limiting
+    API requests are rate limited to ensure fair usage. Please contact support if you need higher limits.
+
+  version: 1.0.0
+  contact:
+    name: Md Rejoyan Islam
+    email: rejoyanislam0014@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:5050/api/v1
+    description: Development server
+  - url: https://exammple.com/api/v1
+    description: Production server
+
+tags:
+  - name: Health
+    description: Health check endpoints
+  - name: Authentication
+    description: User authentication, authorization, and profile management
+  - name: Wishlist
+    description: Movie/TV show wishlist management
+
+paths:
+  /:
+    get:
+      tags:
+        - Health
+      summary: Health check
+      description: Check if the API is running
+      operationId: healthCheck
+      responses:
+        '200':
+          description: API is healthy
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Hello World!
+
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      description: Create a new user account with email and password
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+            example:
+              fullName: John Doe
+              email: john@example.com
+              password: Password123
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      description: Authenticate user with email and password
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            example:
+              email: john@example.com
+              password: Password123
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/refresh-token:
+    post:
+      tags:
+        - Authentication
+      summary: Refresh access token
+      description: Get a new access token using a valid refresh token
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+            example:
+              refreshToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid or expired refresh token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/forgot-password:
+    post:
+      tags:
+        - Authentication
+      summary: Request password reset
+      description: Send a password reset link to the user's email
+      operationId: forgotPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+            example:
+              email: john@example.com
+      responses:
+        '200':
+          description: Password reset email sent (if user exists)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+
+  /auth/reset-password:
+    post:
+      tags:
+        - Authentication
+      summary: Reset password
+      description: Reset user password using the reset token
+      operationId: resetPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+            example:
+              token: abc123def456
+              password: NewPassword123
+      responses:
+        '200':
+          description: Password reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '400':
+          description: Invalid or expired reset token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/profile:
+    get:
+      tags:
+        - Authentication
+      summary: Get current user profile
+      description: Retrieve the authenticated user's profile information
+      operationId: getProfile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      tags:
+        - Authentication
+      summary: Update current user profile
+      description: Update the authenticated user's profile information
+      operationId: updateProfile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfileRequest'
+            example:
+              fullName: John Smith
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/account:
+    delete:
+      tags:
+        - Authentication
+      summary: Deactivate account
+      description: Deactivate the authenticated user's account
+      operationId: deactivateAccount
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Account deactivated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /wishlist:
+    get:
+      tags:
+        - Wishlist
+      summary: Get user's wishlist
+      description: Retrieve all items in the authenticated user's wishlist
+      operationId: getWishlist
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Wishlist retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WishlistItem'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      tags:
+        - Wishlist
+      summary: Add item to wishlist
+      description: Add a movie or TV show to the user's wishlist
+      operationId: addToWishlist
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddWishlistRequest'
+            example:
+              movieId: 550
+              title: Fight Club
+              poster_path: /pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg
+              vote_average: 8.4
+              release_date: '1999-10-15'
+              type: movie
+      responses:
+        '201':
+          description: Item added to wishlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishlistItem'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: Item already in wishlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Wishlist
+      summary: Clear wishlist
+      description: Remove all items from the user's wishlist
+      operationId: clearWishlist
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Wishlist cleared successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /wishlist/check/{movieId}:
+    get:
+      tags:
+        - Wishlist
+      summary: Check if item is in wishlist
+      description: Check if a specific movie/TV show is in the user's wishlist
+      operationId: isInWishlist
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          description: The TMDB movie/TV show ID
+          schema:
+            type: integer
+            example: 550
+      responses:
+        '200':
+          description: Check completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isInWishlist:
+                    type: boolean
+                    description: Whether the item is in the wishlist
+                example:
+                  isInWishlist: true
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /wishlist/{movieId}:
+    delete:
+      tags:
+        - Wishlist
+      summary: Remove item from wishlist
+      description: Remove a specific movie/TV show from the user's wishlist
+      operationId: removeFromWishlist
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: movieId
+          in: path
+          required: true
+          description: The TMDB movie/TV show ID to remove
+          schema:
+            type: integer
+            example: 550
+      responses:
+        '200':
+          description: Item removed from wishlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Item not found in wishlist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token
+
+  schemas:
+    RegisterRequest:
+      type: object
+      required:
+        - fullName
+        - email
+        - password
+      properties:
+        fullName:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: User's full name
+          example: John Doe
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: john@example.com
+        password:
+          type: string
+          minLength: 8
+          maxLength: 100
+          description: Password (must contain uppercase, lowercase, and number)
+          example: Password123
+
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: john@example.com
+        password:
+          type: string
+          minLength: 1
+          description: User's password
+          example: Password123
+
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: Valid refresh token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    ForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: john@example.com
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - token
+        - password
+      properties:
+        token:
+          type: string
+          description: Password reset token received via email
+          example: abc123def456
+        password:
+          type: string
+          minLength: 8
+          maxLength: 100
+          description: New password (must contain uppercase, lowercase, and number)
+          example: NewPassword123
+
+    UpdateProfileRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+          minLength: 2
+          maxLength: 50
+          description: User's full name
+          example: John Smith
+
+    AddWishlistRequest:
+      type: object
+      required:
+        - movieId
+        - title
+        - poster_path
+        - vote_average
+        - release_date
+        - type
+      properties:
+        movieId:
+          type: integer
+          description: TMDB movie/TV show ID
+          example: 550
+        title:
+          type: string
+          description: Movie/TV show title
+          example: Fight Club
+        poster_path:
+          type: string
+          description: TMDB poster image path
+          example: /pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg
+        vote_average:
+          type: number
+          format: float
+          description: Average vote rating
+          example: 8.4
+        release_date:
+          type: string
+          description: Release date
+          example: '1999-10-15'
+        type:
+          type: string
+          enum:
+            - movie
+            - tv
+          description: Media type
+          example: movie
+
+    AuthResponse:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserInfo'
+        tokens:
+          $ref: '#/components/schemas/Tokens'
+
+    UserInfo:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User ID
+          example: 507f1f77bcf86cd799439011
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: john@example.com
+        fullName:
+          type: string
+          description: User's full name
+          example: John Doe
+        createdAt:
+          type: string
+          format: date-time
+          description: Account creation date
+          example: '2024-01-15T10:30:00Z'
+
+    UserProfile:
+      type: object
+      properties:
+        id:
+          type: string
+          description: User ID
+          example: 507f1f77bcf86cd799439011
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: john@example.com
+        fullName:
+          type: string
+          description: User's full name
+          example: John Doe
+        isActive:
+          type: boolean
+          description: Account active status
+          example: true
+        lastLogin:
+          type: string
+          format: date-time
+          description: Last login timestamp
+          example: '2024-01-15T10:30:00Z'
+        createdAt:
+          type: string
+          format: date-time
+          description: Account creation date
+          example: '2024-01-15T10:30:00Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: '2024-01-15T10:30:00Z'
+
+    Tokens:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        refreshToken:
+          type: string
+          description: JWT refresh token
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
+    WishlistItem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Wishlist item ID
+          example: 507f1f77bcf86cd799439011
+        movieId:
+          type: integer
+          description: TMDB movie/TV show ID
+          example: 550
+        title:
+          type: string
+          description: Movie/TV show title
+          example: Fight Club
+        poster_path:
+          type: string
+          description: TMDB poster image path
+          example: /pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg
+        vote_average:
+          type: number
+          format: float
+          description: Average vote rating
+          example: 8.4
+        release_date:
+          type: string
+          description: Release date
+          example: '1999-10-15'
+        type:
+          type: string
+          enum:
+            - movie
+            - tv
+          description: Media type
+          example: movie
+        addedAt:
+          type: string
+          format: date-time
+          description: Date added to wishlist
+          example: '2024-01-15T10:30:00Z'
+
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Response message
+          example: Operation completed successfully
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Success status
+          example: false
+        statusCode:
+          type: integer
+          description: HTTP status code
+          example: 400
+        message:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          description: Error message(s)
+          example: Validation failed
+        error:
+          type: string
+          description: Error type
+          example: Bad Request
+        timestamp:
+          type: string
+          format: date-time
+          description: Error timestamp
+          example: '2024-01-15T10:30:00Z'
+        path:
+          type: string
+          description: Request path
+          example: /api/v1/auth/register

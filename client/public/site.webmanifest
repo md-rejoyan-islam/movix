@@ -1,0 +1,26 @@
+{
+  "name": "Movix",
+  "short_name": "Movix",
+  "description": "Discover, explore, and track your favorite movies and TV shows",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#04152d",
+  "theme_color": "#da2b4a",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["entertainment", "movies", "tv"]
+}

@@ -28,7 +28,7 @@ RUN echo '#!/bin/sh' > start.sh && \
     echo 'cd /app/server' >> start.sh && \
     echo 'node dist/main.js &' >> start.sh && \
     echo 'cd /app/client' >> start.sh && \
-    echo 'node .next/standalone/server.js' >> start.sh && \
+    echo 'PORT=3000 node .next/standalone/server.js' >> start.sh && \
     chmod +x start.sh
 
 ENV NODE_ENV=production

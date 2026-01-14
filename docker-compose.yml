@@ -11,24 +11,24 @@ services:
     ports:
       - "3000:3000" # Next.js client
       - "5050:5050" # NestJS server
-    # networks:
-    #   - traefik-proxy
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.movix.rule=Host(`movix.rejoyan.me`)"
-    #   - "traefik.http.routers.movix.entrypoints=websecure"
-    #   - "traefik.http.routers.movix.tls=true"
-    #   - "traefik.http.routers.movix.tls.certresolver=letsencrypt"
-    #   - "traefik.http.services.movix.loadbalancer.server.port=3000"
-    #   - "traefik.http.routers.movix-http.rule=Host(`movix.rejoyan.me`)"
-    #   - "traefik.http.routers.movix-http.entrypoints=web"
-    #   - "traefik.http.routers.movix-http.middlewares=https-redirect"
+    networks:
+      - traefik-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.movix.rule=Host(`movix.rejoyan.me`)"
+      - "traefik.http.routers.movix.entrypoints=websecure"
+      - "traefik.http.routers.movix.tls=true"
+      - "traefik.http.routers.movix.tls.certresolver=letsencrypt"
+      - "traefik.http.services.movix.loadbalancer.server.port=3000"
+      - "traefik.http.routers.movix-http.rule=Host(`movix.rejoyan.me`)"
+      - "traefik.http.routers.movix-http.entrypoints=web"
+      - "traefik.http.routers.movix-http.middlewares=https-redirect"
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:3000"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 60s
-# networks:
-#   traefik-proxy:
-#     external: true
+networks:
+  traefik-proxy:
+    external: true

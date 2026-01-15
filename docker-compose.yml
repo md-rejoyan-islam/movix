@@ -14,15 +14,33 @@ services:
     networks:
       - traefik-proxy
     labels:
+      # Enable traefik
       - "traefik.enable=true"
-      - "traefik.http.routers.movix.rule=Host(`movix.rejoyan.me`)"
+
+      # Client Router (Next.js on port 3000)
+      - "traefik.http.routers.movix.rule=Host(`movix.rejoyan.me`) && !PathPrefix(`/api`)"
       - "traefik.http.routers.movix.entrypoints=websecure"
       - "traefik.http.routers.movix.tls=true"
       - "traefik.http.routers.movix.tls.certresolver=letsencrypt"
       - "traefik.http.services.movix.loadbalancer.server.port=3000"
-      - "traefik.http.routers.movix-http.rule=Host(`movix.rejoyan.me`)"
+
+      # HTTP redirect
+      - "traefik.http.routers.movix-http.rule=Host(`movix.rejoyan.me`) && !PathPrefix(`/api`)"
       - "traefik.http.routers.movix-http.entrypoints=web"
       - "traefik.http.routers.movix-http.middlewares=https-redirect"
+
+      # API Router (NestJS on port 5050)
+      - "traefik.http.routers.movix-api.rule=Host(`movix.rejoyan.me`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.movix-api.entrypoints=websecure"
+      - "traefik.http.routers.movix-api.tls=true"
+      - "traefik.http.routers.movix-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.movix-api.loadbalancer.server.port=5050"
+
+      # API HTTP redirect
+      - "traefik.http.routers.movix-api-http.rule=Host(`movix.rejoyan.me`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.movix-api-http.entrypoints=web"
+      - "traefik.http.routers.movix-api-http.middlewares=https-redirect"
+
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:3000"]
       interval: 30s
